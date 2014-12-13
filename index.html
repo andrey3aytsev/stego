@@ -1,130 +1,31 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <meta charset="UTF-8"/>
-      <script src="assets/js/jquery.js"></script>
-      <script src="assets/js/paper.js"></script>
-   </head>
-   <body>
 
-        <style>
-            body {
-              background: #000;
-              color: #fff;
-              margin: 0;
-            }
-            #pix_block {
-              width: 100%;
-              line-height: 0;
-            }
-            #pix_block span {
-              display: inline-block;
-              position: relative;
-              height: 0;
-              width: 1%;
-              padding-bottom: 1%;
-              font-size: 0;
-              vertical-align: top;
-              outline: 2px solid #000;
-            }
+    <head>
+        <title>Stego</title>
+        <meta charset="UTF-8"/>
+        <!-- Стили -->
+        <link rel="stylesheet" href="assets/styles/global.css">
+        <!-- Скрипты -->
+        <script src="assets/js/jquery.js"></script>
+        <script src="assets/js/paper.js"></script>
+        <script type="text/paperscript" canvas="canvas-pixels" src="assets/js/drow_pixels_from_image.js" ></script>
+    </head>
 
-        </style>
+    <body>
 
-        <img id="mona" src="assets/img/mona.jpg"></img>
+        <!-- Картинка -->
+        <img id="mona" src="assets/img/mona.png"></img>
 
-        <div class="paperscript split">
+        <!-- Контейнер с пикселями -->
+        <div id="pix_block"></div>
 
-            <script type="text/paperscript" canvas="canvas-2">
+        <!-- Необходимый канвас -->
+        <canvas  width="900" height="500" id="canvas-pixels"></canvas>
 
-               // Create a raster item using the image tag with id='mona'
-               var raster = new Raster('mona');
-
-               // pix array
-               pixels_colors = [];
-
-               var colors_cont = $('#bin');
-               var pix_block = $('#pix_block');
-
-               i = 0;
-
-               // Hide the raster:
-               raster.visible = false;
-
-               // The size of our grid cells:
-               var gridSize = 10;
-
-               // Space the cells by 120%:
-               var spacing = 1.1;
-
-               // As the web is asynchronous, we need to wait for the raster to load
-               // before we can perform any operation on its pixels.
-               raster.on('load', function() {
-                // Since the example image we're using is much too large,
-                // and therefore has way too many pixels, lets downsize it to
-                // 40 pixels wide and 30 pixels high:
-
-                raster.size = new Size(100, 100);
-
-                for (var y = 0; y < raster.height; y++) {
-                  for(var x = 0; x < raster.width; x++) {
-
-                    // Get the color of the pixel:
-                    var color = raster.getPixel(x, y);
-
-                    pixels_colors.push
-                      ([
-                        fraction_2_bin(color.red),
-                        fraction_2_bin(color.green),
-                        fraction_2_bin(color.blue)
-                      ]);
+        <!-- Кнопка скачать -->
+        <a href="#" class="button" id="btn-download" download="example.png">Скачать закодированную картинку</a>
 
 
-                    pix_block.append('<span style="background: rgb('
-
-
-                      + Math.round(color.red   * 100)  + '% ,'
-                      + Math.round(color.green * 100)  + '% ,'
-                      + Math.round(color.blue  * 100)  + '%  '
-
-
-                      + ')"></span>')
-
-
-
-                    colors_cont.append(pixels_colors[i] + "<br>");
-                    i++;
-                  }
-                }
-
-
-                // Move the active layer to the center of the view, so all
-                // the created paths in it appear centered.
-                project.activeLayer.position = view.center;
-               });
-
-
-
-               function fraction_2_bin (fraction) {
-                  var result = Math.round(fraction * 255);
-                  result = add_zeros(result.toString(2), 8);
-                  return result;
-               }
-
-               function add_zeros (str, max) {
-                 str = str.toString();
-                 return str.length < max ? add_zeros("0" + str, max) : str;
-               }
-
-            </script>
-
-            <div class="canvas">
-               <canvas height="1000" width="1000" id="canvas-2" style="display: none;"></canvas>
-            </div>
-         </div>
-
-         <div id="pix_block" style="font-family: monospace; font-size: 20px;"></div>
-
-         <div id="bin" style="font-family: monospace; font-size: 20px;"></div>
-
-   </body>
+    </body>
 </html>

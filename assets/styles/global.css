@@ -1,0 +1,30 @@
+body {
+  background: #000;
+  color: #fff;
+  margin: 0;
+}
+#pix_block {
+  width: 100%;
+  line-height: 0;
+}
+#pix_block span {
+  display: inline-block;
+  position: relative;
+  height: 0;
+  width: 1%;
+  padding-bottom: 1%;
+  font-size: 0;
+  vertical-align: top;
+  outline: 2px solid #000;
+}
+#canvas-pixels {
+  margin: 0 auto;
+  display: block;
+}
+
+#btn-download {
+  height: 40px;
+  color: #fff;
+  display: block;
+  margin: 30px;
+}
