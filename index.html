@@ -9,23 +9,32 @@
         <!-- Скрипты -->
         <script src="assets/js/jquery.js"></script>
         <script src="assets/js/paper.js"></script>
-        <script type="text/paperscript" canvas="canvas-pixels" src="assets/js/drow_pixels_from_image.js" ></script>
+        <script type="text/paperscript" canvas="canvas-paper" src="assets/js/drow_pixels_from_image.js" ></script>
     </head>
 
     <body>
 
+        <!-- Input  -->
+        <input type="text" id="input" placeholder="Введите ваш текст...">
+        <button id="begin">Внедрить</button>
+
         <!-- Картинка -->
-        <img id="mona" src="assets/img/mona.png"></img>
+        <img id="mona" src="assets/img/mona.png" style="opacity: 0"></img>
 
         <!-- Контейнер с пикселями -->
         <div id="pix_block"></div>
 
         <!-- Необходимый канвас -->
-        <canvas  width="900" height="500" id="canvas-pixels"></canvas>
+        <canvas id="canvas-paper"></canvas>
+
+        <!-- Рисуем канвас -->
+        <canvas id="canvas-pixels"></canvas>
 
         <!-- Кнопка скачать -->
         <a href="#" class="button" id="btn-download" download="example.png">Скачать закодированную картинку</a>
 
+        <!-- Текст -->
+        <div id="output-text"></div>
 
     </body>
 </html>
