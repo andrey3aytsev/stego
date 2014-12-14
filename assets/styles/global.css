@@ -15,11 +15,12 @@ body {
   padding-bottom: 1%;
   font-size: 0;
   vertical-align: top;
-  outline: 2px solid #000;
+  outline: 1px solid #000;
 }
-#canvas-pixels {
-  margin: 0 auto;
-  display: block;
+#canvas-paper {
+  display: none;
+/*  width: 100px !important;
+  height: 100px !important;*/
 }
 
 #btn-download {

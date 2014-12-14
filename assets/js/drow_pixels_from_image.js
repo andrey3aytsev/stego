@@ -1,3 +1,21 @@
+// ABC - a generic, native JS (A)scii(B)inary(C)onverter.
+var ABC = {
+  toAscii: function(bin) {
+    return bin.replace(/\s*[01]{8}\s*/g, function(bin) {
+      return String.fromCharCode(parseInt(bin, 2))
+    })
+  },
+  toBinary: function(str, spaceSeparatedOctets) {
+    return str.replace(/[\s\S]/g, function(str) {
+      str = ABC.zeroPad(str.charCodeAt().toString(2));
+      return !1 == spaceSeparatedOctets ? str : str
+    })
+  },
+  zeroPad: function(num) {
+    return "00000000".slice(String(num).length) + num
+  }
+};
+
 // Определяем канвас
 var canvas = document.getElementById('canvas-pixels'),
        ctx = canvas.getContext('2d');
@@ -5,9 +23,14 @@ var canvas = document.getElementById('canvas-pixels'),
 
 document.getElementById('btn-download').addEventListener('click', download_canvas, false);
 
+var text = "Their cat drinks milk.";
+
 // Текст аски
-var text_bin = "101010100101010101010101010010101010101";
+var text_bin = ABC.toBinary(text);
 var text_index = 0;
+
+console.log(text_bin);
+
 
 // Определяем картинку
 var source_img = document.getElementById('mona');
@@ -15,6 +38,12 @@ var source_img = document.getElementById('mona');
 // Получения габаритов изображения
 var source_img_width  = source_img.clientWidth;
 var source_img_height = source_img.clientHeight;
+
+// Размер канваса
+ctx.canvas.width  = source_img_width;
+ctx.canvas.height = source_img_height;
+
+
 
 // Расчет ширины 'пикселя'
 var pix_wid = ( 1 / source_img_width ) * 100;
@@ -30,6 +59,8 @@ var pix_block = $('#pix_block');
 // Массив цветов
 var pixels_colors = [];
 
+// Массив последних битов
+var lsb = [];
 
 // Функция растер при окночании загрузки
 raster.on('load', function() {
@@ -48,6 +79,12 @@ raster.on('load', function() {
             var green_bin = fraction_2_bin(color.green);
             var blue_bin  = fraction_2_bin(color.blue);
 
+            // Запись последних битов
+            lsb.push( red_bin.slice(-1) );
+            lsb.push( green_bin.slice(-1) );
+            lsb.push( red_bin.slice(-1) );
+
+
             var red_bin_modified    = red_bin;
             var green_bin_modified  = green_bin;
             var blue_bin_modified   = blue_bin;
@@ -56,18 +93,15 @@ raster.on('load', function() {
             pixels_colors.push( [ red_bin, green_bin, blue_bin ] );
 
             if ( text_index <= text_bin.length ) {
-                red_bin_modified   = red_bin.substring( 0, red_bin.length - 1) + text_bin[ text_index ];
-                color.red   = red_bin_modified;
+                red_bin_modified = red_bin.substring( 0, red_bin.length - 1) + text_bin[ text_index ];
             }
 
             if ( text_index + 1 <= text_bin.length ) {
                 green_bin_modified = green_bin.substring(0, green_bin.length - 1) + text_bin[ text_index + 1 ];
-                color.green = green_bin_modified;
             }
 
             if ( text_index + 2 <= text_bin.length ) {
                 blue_bin_modified = blue_bin.substring(0, blue_bin.length - 1) + text_bin[ text_index + 2 ];
-                color.blue = blue_bin_modified;
             }
 
             // Наращиваем индекс
@@ -77,42 +111,52 @@ raster.on('load', function() {
             /* Код отрисовки картинок
             ============================ */
 
+
+            ctx.fillStyle = "rgb(" +
+                + parseInt( red_bin_modified, 2 ) + ','
+                + parseInt( green_bin_modified, 2 ) + ','
+                + parseInt( blue_bin_modified, 2 )  + ');';
+
+            ctx.fillRect(x, y, 1, 1);
+
+
             // Рисуем этот пиксель на экране
-            pix_block.append
-                (
-                    '<span style="'
+            // pix_block.append
+            //     (
+            //         '<span style="'
 
-                        + 'width: ' + pix_wid + '%; '
-                        + 'padding-bottom: ' + pix_wid + '%; '
+            //             + 'width: ' + pix_wid + '%; '
+            //             + 'padding-bottom: ' + pix_wid + '%; '
 
-                        + 'background: rgb('
-                        + parseInt( red_bin_modified, 2 ) + ','
-                        + parseInt( green_bin_modified, 2 ) + ','
-                        + parseInt( blue_bin_modified, 2 )  +
+            //             + 'background: rgb('
+            //             + parseInt( red_bin_modified, 2 ) + ','
+            //             + parseInt( green_bin_modified, 2 ) + ','
+            //             + parseInt( blue_bin_modified, 2 )  +
 
-                    ')"></span>'
-                )
-
-            // Создаем 1 пиксель в канвасе
-            var rectangle = new Rectangle({
-                center: new Point(x, y),
-                radius: [1, 1]
-            });
-
-            // Задаём цвет этому пикселю
-            rectangle.fillColor = color;
+            //         ')"></span>'
+            //     )
 
         }    // Конец внутреннего цикла
     }    // Конец внешнего цикла
 
 
-    // the created paths in it appear centered.
-    project.activeLayer.position = view.center;
+
 
 }); // Конец функции растер
 
-// Move the active layer to the center of the view:
-project.activeLayer.position = view.center;
+
+
+// Функция вывода лсб
+setTimeout(function () {
+
+    // Вывод LSB
+    for (var i = 0; i < lsb.length; i = i + 8) {
+        // вывод
+    }
+
+}, 5000);
+
+
 
 
 /*  Вспомогательные функции

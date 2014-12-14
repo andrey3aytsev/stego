@@ -9,7 +9,7 @@
         <!-- Скрипты -->
         <script src="assets/js/jquery.js"></script>
         <script src="assets/js/paper.js"></script>
-        <script type="text/paperscript" canvas="canvas-pixels" src="assets/js/drow_pixels_from_image.js" ></script>
+        <script type="text/paperscript" canvas="canvas-paper" src="assets/js/drow_pixels_from_image.js" ></script>
     </head>
 
     <body>
@@ -21,7 +21,10 @@
         <div id="pix_block"></div>
 
         <!-- Необходимый канвас -->
-        <canvas  width="900" height="500" id="canvas-pixels"></canvas>
+        <canvas id="canvas-paper"></canvas>
+
+        <!-- Рисуем канвас -->
+        <canvas id="canvas-pixels"></canvas>
 
         <!-- Кнопка скачать -->
         <a href="#" class="button" id="btn-download" download="example.png">Скачать закодированную картинку</a>
