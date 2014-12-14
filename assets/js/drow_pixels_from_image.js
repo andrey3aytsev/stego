@@ -23,14 +23,8 @@ var canvas = document.getElementById('canvas-pixels'),
 
 document.getElementById('btn-download').addEventListener('click', download_canvas, false);
 
-var text = "Their cat drinks milk.";
 
-// Текст аски
-var text_bin = ABC.toBinary(text);
-var text_index = 0;
-
-console.log(text_bin);
-
+var pixel_shift = 500;
 
 // Определяем картинку
 var source_img = document.getElementById('mona');
@@ -63,7 +57,15 @@ var pixels_colors = [];
 var lsb = [];
 
 // Функция растер при окночании загрузки
-raster.on('load', function() {
+$('#begin').click(function(event) {
+
+    // Сохраняем текст из поля
+    var text = $('#input').val();
+
+    // Текст аски
+    var text_bin = ABC.toBinary(text);
+    var text_index = 0;
+
 
     raster.size = new Size(source_img_width, source_img_height);
 
@@ -82,42 +84,42 @@ raster.on('load', function() {
             // Запись последних битов
             lsb.push( red_bin.slice(-1) );
             lsb.push( green_bin.slice(-1) );
-            lsb.push( red_bin.slice(-1) );
+            lsb.push( blue_bin.slice(-1) );
 
 
             var red_bin_modified    = red_bin;
             var green_bin_modified  = green_bin;
             var blue_bin_modified   = blue_bin;
 
-            // Записываем значения его каналов в общий массив
-            pixels_colors.push( [ red_bin, green_bin, blue_bin ] );
+            // // Записываем значения его каналов в общий массив
+            // pixels_colors.push( [ red_bin, green_bin, blue_bin ] );
 
-            if ( text_index <= text_bin.length ) {
-                red_bin_modified = red_bin.substring( 0, red_bin.length - 1) + text_bin[ text_index ];
-            }
+            // if ( text_index <= text_bin.length ) {
+            //     red_bin_modified = red_bin.substring( 0, red_bin.length - 1) + text_bin[ text_index ];
+            // }
 
-            if ( text_index + 1 <= text_bin.length ) {
-                green_bin_modified = green_bin.substring(0, green_bin.length - 1) + text_bin[ text_index + 1 ];
-            }
+            // if ( text_index + 1 <= text_bin.length ) {
+            //     green_bin_modified = green_bin.substring(0, green_bin.length - 1) + text_bin[ text_index + 1 ];
+            // }
 
-            if ( text_index + 2 <= text_bin.length ) {
-                blue_bin_modified = blue_bin.substring(0, blue_bin.length - 1) + text_bin[ text_index + 2 ];
-            }
+            // if ( text_index + 2 <= text_bin.length ) {
+            //     blue_bin_modified = blue_bin.substring(0, blue_bin.length - 1) + text_bin[ text_index + 2 ];
+            // }
 
-            // Наращиваем индекс
-            text_index += 3;
+            // // Наращиваем индекс
+            // text_index += 3;
 
 
             /* Код отрисовки картинок
             ============================ */
 
 
-            ctx.fillStyle = "rgb(" +
-                + parseInt( red_bin_modified, 2 ) + ','
-                + parseInt( green_bin_modified, 2 ) + ','
-                + parseInt( blue_bin_modified, 2 )  + ');';
+            // ctx.fillStyle = "rgb(" +
+            //     + parseInt( red_bin_modified, 2 ) + ','
+            //     + parseInt( green_bin_modified, 2 ) + ','
+            //     + parseInt( blue_bin_modified, 2 )  + ');';
 
-            ctx.fillRect(x, y, 1, 1);
+            // ctx.fillRect(x, y, 1, 1);
 
 
             // Рисуем этот пиксель на экране
@@ -140,21 +142,32 @@ raster.on('load', function() {
     }    // Конец внешнего цикла
 
 
+    // Функция вывода лсб
+    setTimeout(function () {
+
+        var output_text = $("#output-text");
+
+        // Вывод LSB
+        for ( var i = 0; i < lsb.length - 8 ; i = i + 8) {
+
+            var string = '';
+
+
+            for ( var j = i; j - 8 < i; j++ ) {
+                string += lsb[j];
+            }
+
+            $(output_text).append(ABC.toAscii(string));
+        }
+
+    }, 1000);
+
+
 
 
 }); // Конец функции растер
 
 
-
-// Функция вывода лсб
-setTimeout(function () {
-
-    // Вывод LSB
-    for (var i = 0; i < lsb.length; i = i + 8) {
-        // вывод
-    }
-
-}, 5000);
 
 
 
