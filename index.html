@@ -2,39 +2,91 @@
 <html>
 
     <head>
+
         <title>Stego</title>
         <meta charset="UTF-8"/>
+
         <!-- Стили -->
+        <link rel="stylesheet" href="assets/styles/foundation.css">
         <link rel="stylesheet" href="assets/styles/global.css">
+
         <!-- Скрипты -->
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/paper.js"></script>
-        <script type="text/paperscript" canvas="canvas-paper" src="assets/js/drow_pixels_from_image.js" ></script>
+        <script src="assets/js/vendor/modernizr.js"></script>
+        <script src="assets/js/vendor/jquery.js"></script>
+        <script src="assets/js/vendor/foundation.min.js"></script>
+
+        <script src="assets/js/utilities/helper_functions.js"></script>
+        <script src="assets/js/utilities/ui.js"></script>
+        <script src="assets/js/utilities/init_canvases.js"></script>
+
+        <script src="assets/js/read_image.js"></script>
+        <script src="assets/js/write_image.js"></script>
+        <script src="assets/js/print_pixels.js"></script>
+        <script src="assets/js/lsb_algorithm.js"></script>
+        <script src="assets/js/app.js"></script>
     </head>
 
     <body>
 
-        <!-- Input  -->
-        <input type="text" id="input" placeholder="Введите ваш текст...">
-        <button id="begin">Внедрить</button>
 
-        <!-- Картинка -->
-        <img id="mona" src="assets/img/mona.png" style="opacity: 0"></img>
+        <!-- Исходная картинка и её канвас -->
+        <div class="row block-src-img">
+            <h1>Исходное изображение</h1>
 
-        <!-- Контейнер с пикселями -->
-        <div id="pix_block"></div>
+                <!-- Канвас для чтения исходного изображения -->
+                <canvas id="canvas-src-image"></canvas>
 
-        <!-- Необходимый канвас -->
-        <canvas id="canvas-paper"></canvas>
+                <!-- Картинка -->
+                <img  class="th" id="src-img" src="assets/img/mona.png" />
+        </div>
 
-        <!-- Рисуем канвас -->
-        <canvas id="canvas-pixels"></canvas>
 
-        <!-- Кнопка скачать -->
-        <a href="#" class="button" id="btn-download" download="example.png">Скачать закодированную картинку</a>
+        <!-- Конпки "закодировать"" / "раскодировать"" -->
+        <div class="row block-init-buttons">
+            <button id="lets-encript" class="button">Закодировать</button>
+            <button id="lets-decript" class="button">Раскодировать</button>
+        </div>
 
-        <!-- Текст -->
-        <div id="output-text"></div>
+
+        <!-- Форма для ввода сообщения -->
+        <div class="row block-msg-input" hidden>
+
+            <!-- Поле ввода  -->
+            <input type="text" id="input" placeholder="Введите ваш текст...">
+            <!--  -->
+            <button id="lsb-encript">Внедрить</button>
+        </div>
+
+
+        <!-- Блок для пикселей -->
+        <div class="row block-pixels" hidden>
+            <h1>Закодированное изображение в пикселях</h1>
+
+            <!-- Контейнер для блоков-пикселей -->
+            <div id="pix-block"></div>
+        </div>
+
+
+        <!-- Изменённая картинка и кнопка скачать -->
+        <div class="row block-mod-img" hidden>
+            <h1>Закодированное изображение</h1>
+
+            <!-- Канвас для отрисовки модифицированного изображения -->
+            <p><canvas class="th" id="canvas-mod-image"></canvas></p>
+
+
+            <!-- Кнопка скачать -->
+            <a href="#" class="button" id="image-mod-download" download="example.png">Скачать закодированное изображение</a>
+        </div>
+
+
+        <!-- Блок расшифрованного кода -->
+        <div class="row block-code" hidden>
+
+            <!-- Текст -->
+            <div id="output-text"></div>
+        </div>
+
 
     </body>
 </html>

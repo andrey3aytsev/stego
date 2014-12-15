@@ -3,11 +3,11 @@ body {
   color: #fff;
   margin: 0;
 }
-#pix_block {
+#pix-block {
   width: 100%;
   line-height: 0;
 }
-#pix_block span {
+#pix-block span {
   display: inline-block;
   position: relative;
   height: 0;
@@ -19,13 +19,15 @@ body {
 }
 #canvas-paper {
   display: none;
-/*  width: 100px !important;
-  height: 100px !important;*/
+}
+#canvas-src-image {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+  position: absolute;
 }
 
-#btn-download {
-  height: 40px;
-  color: #fff;
-  display: block;
-  margin: 30px;
+.row {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
