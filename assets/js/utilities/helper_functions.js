@@ -16,18 +16,51 @@ function add_zeros (str, max) {
 
 // Перевод символов в бинарный вид и обратно
 var ABC = {
+
   toAscii: function(bin) {
-    return bin.replace(/\s*[01]{8}\s*/g, function(bin) {
-      return String.fromCharCode(parseInt(bin, 2))
-    })
+      return bin.replace(/\s*[01]{8}\s*/g, function(bin) {
+          return String.fromCharCode(parseInt(bin, 2))
+      })
   },
+
   toBinary: function(str, spaceSeparatedOctets) {
     return str.replace(/[\s\S]/g, function(str) {
-      str = ABC.zeroPad(str.charCodeAt().toString(2));
-      return !1 == spaceSeparatedOctets ? str : str
+        str = ABC.zeroPad(str.charCodeAt().toString(2));
+        return !1 == spaceSeparatedOctets ? str : str
     })
   },
+
   zeroPad: function(num) {
     return "00000000".slice(String(num).length) + num
   }
+
 };
+
+// Создание текстового файла
+makeTextFile = function (text) {
+  var data = new Blob([text], {type: 'text/plain'});
+
+  if (textFile !== null) {
+    window.URL.revokeObjectURL(textFile);
+  }
+
+  textFile = window.URL.createObjectURL(data);
+
+  return textFile;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
