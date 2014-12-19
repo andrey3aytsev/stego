@@ -12,6 +12,7 @@ function pixel_draw_image(array) {
 
     // По всем пикселям проходим
     for (var i = 0; i < array.length; i++) {
+
         pix_block.append(
             '<span style="'
 

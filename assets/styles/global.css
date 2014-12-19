@@ -17,17 +17,21 @@ body {
   vertical-align: top;
   outline: 1px solid #000;
 }
-#canvas-paper {
-  display: none;
-}
 #canvas-src-image {
   height: 0;
   width: 0;
   visibility: hidden;
   position: absolute;
 }
-
 .row {
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.block-code {
+  word-wrap: break-word;
+  font-family: monospace;
+  font-size: 16px;
+  height: 500px;
+  overflow-y: scroll;
 }

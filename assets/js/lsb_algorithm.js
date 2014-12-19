@@ -10,7 +10,7 @@ function lsb_create_array (image) {
     var array2 = [];
 
     // По всем пикселям проходим
-    for (var i = 0; i < array1.length; i++) {
+    for (var i = 0; i < image.size; i++) {
 
         var r_channel = dec_2_bin(array1[i][0]);
         var g_channel = dec_2_bin(array1[i][1]);
@@ -28,7 +28,7 @@ function lsb_create_array (image) {
 // Изменение последних битов массива цветов
 function lsb_modify_array(image, string) {
 
-    var array1 = image.src_colors
+    var array1 = image.src_colors;
     var array2 = array1;
 
     // Определяем кратность трём
@@ -50,7 +50,7 @@ function lsb_modify_array(image, string) {
     var text_index = 0;
 
     // По всем пикселям проходим
-    for (var i = 0; i < array1.length; i++) {
+    for (var i = 0; i < image.size; i++) {
 
         var r_channel = dec_2_bin(array1[i][0]);
         var g_channel = dec_2_bin(array1[i][1]);
@@ -91,8 +91,10 @@ function lsb_2_ascii(image) {
             string += lsb[j];
         }
 
+        var output = ABC.toAscii(string);
+
         // Выводим букву
-        $(output_text).append(ABC.toAscii(string));
+        $(output_text).append( output );
     }
 }
 

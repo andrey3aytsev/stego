@@ -27,5 +27,5 @@ function canvas_read_image(image) {
     }
 
     image.src_colors = array;
-
+    image.size = array.length;
 }

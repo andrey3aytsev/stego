@@ -10,6 +10,10 @@ $(document).ready(function($) {
       });
 
 
+
+
+
+
       // Разрешаем ввод только в английской раскладке
       $("#input").keypress(function(event){
           var ew = event.which;
@@ -20,16 +24,23 @@ $(document).ready(function($) {
 
 });
 
+// Сохраняем стеганоключ из поля
+function get_stego_key () {
+    image.stego_key = $('#quant-key-field').val().split(",");
+}
+
+
 // Получаем сообщение из поля на клик
 function get_msg_from_field () {
+  console.log(ABC.toBinary( $('#input').val() ));
     return ABC.toBinary( $('#input').val() );
 }
 
 // Показать блок(и)
 function show_blocks() {
-  for (var i = 0; i < arguments.length; i++) {
-      arguments[i].slideDown();
-  }
+    for (var i = 0; i < arguments.length; i++) {
+        arguments[i].slideDown();
+    }
 }
 
 // Скрыть блоки(и)
