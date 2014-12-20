@@ -40,7 +40,7 @@ $(document).ready(function($) {
     });
 
 
-    // При клике на кропке "Метод LSB"
+    // При клике на кропке "Метод QUANT"
     $('#quant-encript').click(function(event) {
 
         // Находим разницы цветов
@@ -54,6 +54,7 @@ $(document).ready(function($) {
 
         // Модифицируем массив разниц
         quant_modify_diffs(image, get_msg_from_field());
+
 
         // Находим новые цвета для отрисовки
         quant_modify_collors(image);
@@ -69,7 +70,7 @@ $(document).ready(function($) {
     });
 
 
-    /// При клике на кропке "Метод QUANT"
+    /// При клике на кропке "Метод LSB"
     $('#lsb-encript').click(function(event) {
 
         // Изменяем значения в массиве цветов
@@ -115,6 +116,7 @@ $(document).ready(function($) {
         // Находим разницы цветов
         quant_color_diffs(image);
 
+
         // Генерируем шкалу от -255 до 255
         quant_generate_scale(image);
 
@@ -133,6 +135,7 @@ $(document).ready(function($) {
 
         // Расишфровываем сообщение
         quant_read_message(image);
+
 
         // Показываем скрываем кнопки и показываем форму
         hide_blocks($('.block-key-field'));
