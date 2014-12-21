@@ -6,10 +6,12 @@ $(document).ready(function($) {
 
     // Создаём глобальный обьект = исходная картинка
     image = {
-        src_colors: [],
-        mod_colors: [],
-        stego_key : [],
-        lsb       : []
+        src_colors   : [],
+        mod_colors   : [],
+        stego_key    : [],
+        lsb          : [],
+        largest_diff :  0,
+        image_diff   : []
     };
 
 
@@ -84,6 +86,10 @@ $(document).ready(function($) {
 
         // Показываем блоки пикселей и готовую картинку
         show_blocks($('.block-pixels'), $('.block-mod-img'));
+
+        get_image_diffs(image);
+        alert(image.image_diff);
+        alert(image.largest_diff);
     });
 
 
