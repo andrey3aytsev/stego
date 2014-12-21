@@ -15,8 +15,6 @@ function quant_color_diffs (image) {
     image.quant_diffs.push(tmp);
   }
 
-  alert(image.quant_diffs);
-
 }
 
 
@@ -103,18 +101,16 @@ function quant_modify_diffs(image, string) {
 function quant_modify_collors(image) {
 
   // По всем пикселям кроме последнего
-  for (var i = 0; i < image.size - 1; i++) {
+  for (var i = image.size - 2; i >= 0; i--) {
 
-    // Записывам массив модифицированных цветов
-    image.mod_colors.push([
-      image.src_colors[i+1][0] - image.quant_diffs[i],
-      image.src_colors[i][1],
-      image.src_colors[i][2]
-    ])
+    var tmp_array = image.src_colors;
+
+    image.mod_colors = tmp_array;
+
+    // Записывам модифицированныe цвета
+    image.mod_colors[i][0] = image.mod_colors[i+1][0] - image.quant_diffs[i];
+
   }
-
-  // Добавляем последний пиксель (дублируем)
-  image.mod_colors.push(image.src_colors[image.size - 1]);
 
 }
 
@@ -127,7 +123,7 @@ function quant_read_message(image) {
 
   var result = [];
 
-  for (var i = 0; i < image.quant_diffs.length - 1; i++) {
+  for (var i = 0; i < image.quant_diffs.length; i++) {
 
     result.push(
         image.stego_key[ image.quant_scale.indexOf( image.quant_diffs[i] ) ]
