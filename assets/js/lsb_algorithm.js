@@ -28,8 +28,10 @@ function lsb_create_array (image) {
 // Изменение последних битов массива цветов
 function lsb_modify_array(image, string) {
 
+
     var array1 = image.src_colors;
     var array2 = array1;
+
 
     // Определяем кратность трём
     var residue = string.length % 3;
@@ -46,6 +48,8 @@ function lsb_modify_array(image, string) {
             break;
     }
 
+
+
     // Индекс текущего элемента строки
     var text_index = 0;
 
@@ -56,20 +60,21 @@ function lsb_modify_array(image, string) {
         var g_channel = dec_2_bin(array1[i][1]);
         var b_channel = dec_2_bin(array1[i][2]);
 
-        r_channel = r_channel.substring(0, 7) + string[text_index + 0];
-        g_channel = g_channel.substring(0, 7) + string[text_index + 1];
-        b_channel = b_channel.substring(0, 7) + string[text_index + 2];
+        if (text_index < string.length ) {
+            r_channel = r_channel.substring(0, 7) + string[text_index + 0];
+            g_channel = g_channel.substring(0, 7) + string[text_index + 1];
+            b_channel = b_channel.substring(0, 7) + string[text_index + 2];
+        }
 
-        array2[i][0] = parseInt(r_channel, 2);
-        array2[i][1] = parseInt(g_channel, 2);
-        array2[i][2] = parseInt(b_channel, 2);
+        image.mod_colors.push([
+            parseInt(r_channel, 2),
+            parseInt(g_channel, 2),
+            parseInt(b_channel, 2)
+        ]);
 
         text_index += 3;
-
-        if (text_index > string.length ) { break };
     }
 
-    image.mod_colors = array2;
 }
 
 
