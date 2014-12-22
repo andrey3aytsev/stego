@@ -100,18 +100,27 @@ function quant_modify_diffs(image, string) {
 // Функция модификации массива цветов на основе массива разниц
 function quant_modify_collors(image) {
 
+
+  for (var i = 0; i < image.size; i++) {
+    image.mod_colors.push([
+      function_return(image.src_colors[i][0]),
+      function_return(image.src_colors[i][1]),
+      function_return(image.src_colors[i][2])
+    ]);
+  };
+
   // По всем пикселям кроме последнего
   for (var i = image.size - 2; i >= 0; i--) {
-
-    var tmp_array = image.src_colors;
-
-    image.mod_colors = tmp_array;
 
     // Записывам модифицированныe цвета
     image.mod_colors[i][0] = image.mod_colors[i+1][0] - image.quant_diffs[i];
 
   }
 
+}
+
+function function_return (argument) {
+  return argument*1;
 }
 
 

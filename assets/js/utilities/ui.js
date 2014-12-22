@@ -32,7 +32,6 @@ function get_stego_key () {
 
 // Получаем сообщение из поля на клик
 function get_msg_from_field () {
-  console.log(ABC.toBinary( $('#input').val() ));
   return ABC.toBinary( $('#input').val() );
 }
 

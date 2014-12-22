@@ -6,12 +6,21 @@ $(document).ready(function($) {
 
     // Создаём глобальный обьект = исходная картинка
     image = {
-        src_colors   : [],
-        mod_colors   : [],
-        stego_key    : [],
-        lsb          : [],
-        largest_diff :  0,
-        image_diff   : []
+        src_colors     : [],
+        mod_colors     : [],
+        stego_key      : [],
+        lsb            : [],
+        image_diff     : [],
+
+        stats          : {
+            largest_diff          :  0,
+            average_diff          :  0,
+            average_error         :  0,
+            signal_to_noise       :  0,
+            image_fidelity        :  0,
+            correlation_quality   :  0,
+            structural_content    :  0,
+        }
     };
 
 
@@ -67,6 +76,9 @@ $(document).ready(function($) {
         // Рисуем изображение пикселями
         pixel_draw_image(image.mod_colors);
 
+        // Выврлим статистику в консоль
+        get_image_stats(image);
+
         // Показываем блоки
         show_blocks($('.block-pixels'), $('.block-mod-img'), $('.block-key'));
     });
@@ -75,8 +87,11 @@ $(document).ready(function($) {
     /// При клике на кропке "Метод LSB"
     $('#lsb-encript').click(function(event) {
 
+
+
         // Изменяем значения в массиве цветов
         lsb_modify_array(image, get_msg_from_field());
+
 
         // Рисуем канвас видоизменённых пикслелей
         canvas_draw_image(image.mod_colors);
@@ -84,12 +99,14 @@ $(document).ready(function($) {
         // Рисуем изображение пикселями
         pixel_draw_image(image.mod_colors);
 
+
+        // Выврлим статистику в консоль
+        get_image_stats(image);
+
         // Показываем блоки пикселей и готовую картинку
         show_blocks($('.block-pixels'), $('.block-mod-img'));
 
-        get_image_diffs(image);
-        alert(image.image_diff);
-        alert(image.largest_diff);
+
     });
 
 
