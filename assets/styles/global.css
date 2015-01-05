@@ -17,7 +17,7 @@ body {
   vertical-align: top;
   outline: 1px solid #000;
 }
-#canvas-src-image {
+#canvas-src-image, #canvas-mod-image {
   height: 0;
   width: 0;
   visibility: hidden;
