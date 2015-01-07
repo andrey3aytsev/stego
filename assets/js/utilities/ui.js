@@ -4,14 +4,12 @@
 $(document).ready(function($) {
 
       // Сохраняем канвас на клик как файл png
-      $('#image-mod-download').click(function() {
-          var dt = canvas_mod.toDataURL("image/png");
-          this.href = dt;
+      $('#image-mod-download').click(function(e) {
+        var img = document.getElementById('encripted-pic');
+        var a = $("<a>").attr("href", img.src).attr("download", "example.png").appendTo("body");
+        a[0].click();
+        a.remove();
       });
-
-
-
-
 
 
       // Разрешаем ввод только в английской раскладке
