@@ -71,36 +71,6 @@ function quant_generate_scale (image) {
 // Функция внедрения сообщения в массив разниц
 function quant_modify_diffs(image, string) {
 
-  for (var i = 0; i < string.length; i++) {
-
-    // Текущий бит строки
-    var current_bit = parseInt(string[i]);
-
-    // Текущее значение разницы
-    var current_diff = image.quant_diffs[i];
-
-    // Позиция текущего значения на шкале
-    var position = image.quant_scale.indexOf(current_diff);
-
-    var shift = 0, power = 1;
-
-    // Ищем индекс до тех пор пока не совпадёт
-    while ( image.quant_tetta[ position ] != current_bit ) {
-      shift++; power *= -1;
-      position = position + ( shift * power);
-    }
-
-    // Присваиваем новое значение
-    image.quant_diffs[i] = image.quant_scale[ position ];
-  }
-
-}
-
-
-// Функция модификации массива цветов на основе массива разниц
-function quant_modify_collors(image) {
-
-
   for (var i = 0; i < image.size; i++) {
     image.mod_colors.push([
       function_return(image.src_colors[i][0]),
@@ -109,15 +79,35 @@ function quant_modify_collors(image) {
     ]);
   };
 
-  // По всем пикселям кроме последнего
-  for (var i = image.size - 2; i >= 0; i--) {
+  for (var i = 0; i < string.length; i++) {
 
-    // Записывам модифицированныe цвета
-    image.mod_colors[i][0] = image.mod_colors[i+1][0] - image.quant_diffs[i];
+    // Текущий бит строки
+    var current_bit = parseInt(string[i]);
+
+    // Текущее значение разницы
+    var current_diff = image.quant_diffs[i*5];
+
+    // Позиция текущего значения на шкале
+    var position = image.quant_scale.indexOf(current_diff);
+    var old_position = position;
+
+    var shift = 0, power = -1;
+
+    // Ищем индекс до тех пор пока не совпадёт
+    while ( image.quant_tetta[ position ] != current_bit ) {
+      shift++; power *= -1;
+      position = position + ( shift * power);
+    }
+
+    // Присваиваем новое значение
+    image.mod_colors[i*5+1][0] = image.mod_colors[i*5+1][0] + (position - old_position);
 
   }
 
 }
+
+
+// Функция модификации массива цветов на основе массива разниц
 
 function function_return (argument) {
   return argument*1;
@@ -133,11 +123,13 @@ function quant_read_message(image) {
   var result = [];
 
   for (var i = 0; i < image.quant_diffs.length; i++) {
+    if ( i % 5 == 0 ) {
 
-    result.push(
-        image.stego_key[ image.quant_scale.indexOf( image.quant_diffs[i] ) ]
-    )
-
+      console.log(image.stego_key[ image.quant_scale.indexOf( image.quant_diffs[i] ) ]);
+      result.push(
+          image.stego_key[ image.quant_scale.indexOf( image.quant_diffs[i] ) ]
+      )
+    }
   }
 
   for ( var i = 0; i < result.length - 8 ; i = i + 8) {

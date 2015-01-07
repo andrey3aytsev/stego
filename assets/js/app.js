@@ -66,10 +66,6 @@ $(document).ready(function($) {
         // Модифицируем массив разниц
         quant_modify_diffs(image, get_msg_from_field());
 
-
-        // Находим новые цвета для отрисовки
-        quant_modify_collors(image);
-
         // Рисуем канвас видоизменённых пикслелей
         canvas_draw_image(image.mod_colors);
 
@@ -86,7 +82,6 @@ $(document).ready(function($) {
 
     /// При клике на кропке "Метод LSB"
     $('#lsb-encript').click(function(event) {
-
 
 
         // Изменяем значения в массиве цветов

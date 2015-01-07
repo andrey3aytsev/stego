@@ -13,12 +13,8 @@ function lsb_create_array (image) {
     for (var i = 0; i < image.size; i++) {
 
         var r_channel = dec_2_bin(array1[i][0]);
-        var g_channel = dec_2_bin(array1[i][1]);
-        var b_channel = dec_2_bin(array1[i][2]);
 
         array2.push( r_channel[7] );
-        array2.push( g_channel[7] );
-        array2.push( b_channel[7] );
     }
 
     image.lsb = array2;
@@ -33,26 +29,6 @@ function lsb_modify_array(image, string) {
     var array2 = array1;
 
 
-    // Определяем кратность трём
-    var residue = string.length % 3;
-
-    // Дополняем нулями до кратности трём
-    switch (residue) {
-        case 0:
-            break;
-        case 1:
-            string += '00';
-            break;
-        case 2:
-            string += '0';
-            break;
-    }
-
-
-
-    // Индекс текущего элемента строки
-    var text_index = 0;
-
     // По всем пикселям проходим
     for (var i = 0; i < image.size; i++) {
 
@@ -60,10 +36,8 @@ function lsb_modify_array(image, string) {
         var g_channel = dec_2_bin(array1[i][1]);
         var b_channel = dec_2_bin(array1[i][2]);
 
-        if (text_index < string.length ) {
-            r_channel = r_channel.substring(0, 7) + string[text_index + 0];
-            g_channel = g_channel.substring(0, 7) + string[text_index + 1];
-            b_channel = b_channel.substring(0, 7) + string[text_index + 2];
+        if (i < string.length ) {
+            r_channel = r_channel.substring(0, 7) + string[i];
         }
 
         image.mod_colors.push([
@@ -72,7 +46,6 @@ function lsb_modify_array(image, string) {
             parseInt(b_channel, 2)
         ]);
 
-        text_index += 3;
     }
 
 }
