@@ -12,6 +12,7 @@ $(document).ready(function($) {
         lsb            : [],
         image_diff     : [],
         sub_arrays     : [],
+        dct    : [],
 
         stats          : {
             largest_diff          :  0,
@@ -92,9 +93,6 @@ $(document).ready(function($) {
         // Рисуем канвас видоизменённых пикслелей
         canvas_draw_image(image.mod_colors);
 
-        // Рисуем изображение пикселями
-        // pixel_draw_image(image.mod_colors);
-
 
         // Выврлим статистику в консоль
         get_image_stats(image);
@@ -109,9 +107,7 @@ $(document).ready(function($) {
     $('#dct-encript').click(function(event) {
 
 
-        dct_generate_arrays(image);
-
-        console.log(image.sub_arrays[0][0][0][0]);
+        dct_function(image);
 
         // Показываем блоки пикселей и готовую картинку
         show_blocks($('.block-mod-img'));
