@@ -1,50 +1,6 @@
 
-// Функция склеивания элементов массива в маленикие массивы
-function elements_to_array(array, firstIndex, step, length) {
-
-    for ( var i = 0, tmp_array = [] ; i < length; i++ ) {
-      tmp_array.push( array[ firstIndex + i * step ] )
-    }
-
-    return tmp_array;
-}
-
-
-// Функция перевода линейного массива в многоуровневую матрицу
-function array_delianize (array_before, array_after) {
-
-    // Временные массивы
-    var array_8_colors = [],
-        array_8_rows   = [],
-        array_length   = array_before.length;
-
-    // Делианизируем по 8 цветов
-    for ( var i = 0 ; i <= array_length - 8; i +=8 ) {
-      array_8_colors.push( elements_to_array(array_before, i, 1, 8) )
-    }
-
-    // Делианизируем по 8 блоков из 8ми цветов
-    for ( var i = 0 ; i < array_length / ( 8 * 8 ); i++ ) {
-      array_8_rows.push( elements_to_array(array_8_colors, i, 8, 8) )
-    }
-
-    // Делианизируем по 16 блоков из 64ех цветов
-    for ( var i = 0 ; i < Math.sqrt( array_length / ( 8 * 8 ) ) ; i++ ) {
-      array_after.push( elements_to_array(array_8_rows, i, 16, 16) );
-    }
-
-}
-
-
-// Сигма функция Зайцева
-function dct_sigma(argument) {
-    argument == 0 ? ( argument = (1 / Math.sqrt(2))) : (argument = 1);
-    return argument;
-}
-
-
-// Дискретное преобразование для 1 элемента
-function dct_direct (u, v, C_x_y) {
+// Дискретное преобразование для элементов 1 блока
+function dct_direct (u, v, array) {
 
     var prod = dct_sigma(u) * dct_sigma(v) / 4,
         summ = 0;
@@ -52,11 +8,31 @@ function dct_direct (u, v, C_x_y) {
     for (var m = 0; m < 8; m++) {
       for (var l = 0; l < 8; l++) {
 
-        summ += Math.round( 1
-          * C_x_y
-          * Math.cos( Math.round((Math.PI * u * (2*m + 1)) / 16) )
-          * Math.cos( Math.round((Math.PI * v * (2*l + 1)) / 16) )
-        )
+        summ += 1
+          * array[ m * 8 + l ][2]
+          * Math.cos( (Math.PI * u * (2*m + 1)) / 16 )
+          * Math.cos( (Math.PI * v * (2*l + 1)) / 16 )
+      }
+    }
+
+    return prod * summ;
+}
+
+
+// Дискретное преобразование для элементов 1 блока
+function dct_reverse(u, v, dct_array) {
+
+    var prod = 1 / 4,
+        summ = 0;
+
+    for (var m = 0; m < 8; m++) {
+      for (var l = 0; l < 8; l++) {
+
+        summ += 1
+          * dct_sigma(m) * dct_sigma(l)
+          * dct_array[ m * 8 + l ]
+          * Math.cos( (Math.PI * m * (2*u + 1)) / 16 )
+          * Math.cos( (Math.PI * l * (2*v + 1)) / 16 )
       }
     }
 
@@ -64,41 +40,106 @@ function dct_direct (u, v, C_x_y) {
 }
 
 
-// ПДК преобразование для всех значений интенсивности
-function dct_function (image) {
+function dct_direct_for_block(array) {
 
-    // Делианизируем массив цветов
-    array_delianize(image.src_colors, image.sub_arrays);
+  ddd = [];
 
-    var DCT_linear = [],
-        sub_length = image.sub_arrays.length;
-
-
-    // По строкам блоков, По строке блоков,
-    // По строкам блока, По элементам строки блока
-    for (var i = 0; i < sub_length; i++) {
-      for (var j = 0; j < sub_length; j++) {
-        for (var m = 0; m < 8; m++) {
-          for (var l = 0; l < 8; l++) {
-
-              // Вычисляем коэффициент
-              var C_x_y = image.sub_arrays[i][j][m][l][2],
-                  dct_i = dct_direct(m, l, C_x_y);
-
-              // Добавляем его в линейный массив
-              DCT_linear.push( dct_i );
-
-          }
-        }
-      }
+  // По 64 пикселям
+  for (var m = 0; m < 8; m++) {
+    for (var l = 0; l < 8; l++) {
+        var ooo = dct_direct(m, l, array);
+        ddd.push(ooo);
     }
+  }
 
-    // Делианизируем массив коэффициентов
-    array_delianize( DCT_linear, image.dct );
-
+  return ddd;
 }
 
 
+function dct_reverse_for_block(array) {
+
+  ccc = [];
+
+  // По 64 пикселям
+  for (var m = 0; m < 8; m++) {
+    for (var l = 0; l < 8; l++) {
+        var aaa = dct_reverse(m, l, array)
+        ccc.push(aaa);
+    }
+  }
+
+  return ccc;
+}
+
+
+// Функция создания глобального массива ДКТ
+function dct_create_function (image) {
+
+    // Количество блоков 8х8 в картинке
+    image_bloks_number = src_img_height * src_img_height / 64 ;
+    // Количество блоков 8х8 в строке картинки
+    row_image_bloks_number = Math.sqrt(image_bloks_number);
+
+    // Двойной цикл по блокам 8х8
+    for ( var y = 0; y < row_image_bloks_number ; y++ ) {
+        for ( var x = 0; x < row_image_bloks_number ; x++ ) {
+
+          array = [];
+
+          // Двойной цикл по пикселям блока 8х8
+          for ( var u = 0 ; u < 8 ; u++ ) {
+              for ( var v = 0 ; v < 8 ; v++ ) {
+
+                // Запоминаем значения текущего пикселя
+                var pixelData = cxt_src.getImageData(x*8+v, y*8+u, 1, 1).data;
+
+                // Записываем эти значения в массив в десятичном виде
+                array.push([ pixelData[0], pixelData[1],  pixelData[2] ]);
+
+              }
+          }
+
+          image.sub_arrays.push(array);
+
+        }
+    }
+
+    // Создаем массив коэффициентов
+    for (var i = 0; i < image_bloks_number ; i++) {
+      var tmp = dct_direct_for_block( image.sub_arrays[i] )
+      image.dct.push(tmp);
+    }
+}
+
+function dct_colors_from_coofs (image) {
+
+  var result = result_linear = [];
+
+  // Проходим по блокам коэффициентов и получаем блоки цветов
+  for (var i = 0; i < image_bloks_number ; i++) {
+    var tmp = dct_reverse_for_block( image.dct[i] );
+    result.push(tmp);
+  }
+
+  // Леагизируем массив цветов
+  for (var k = 0; k < Math.sqrt(image_bloks_number) ; k++) {
+    for (var j = 0; j < 8 ; j++) {
+      for (var i = 0; i < Math.sqrt(image_bloks_number) ; i++) {
+        for (var h = 0; h < 8 ; h++) {
+          result_linear.push([
+            result[ k * Math.sqrt(image_bloks_number) + i ][ j * 8 + h ]
+          ])
+        }
+      }
+    }
+  }
+
+  // Создаём массив цветов для отрисовки
+  for (var i = 0; i < image.size ; i++) {
+    image.mod_colors.push([ image.src_colors[i][0], image.src_colors[i][1], result_linear[i]])
+  }
+
+}
 
 
 

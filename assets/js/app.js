@@ -107,7 +107,13 @@ $(document).ready(function($) {
     $('#dct-encript').click(function(event) {
 
 
-        dct_function(image);
+        dct_create_function(image);
+
+        dct_colors_from_coofs(image);
+
+        // Рисуем канвас видоизменённых пикслелей
+        canvas_draw_image(image.mod_colors);
+
 
         // Показываем блоки пикселей и готовую картинку
         show_blocks($('.block-mod-img'));
