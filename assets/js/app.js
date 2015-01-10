@@ -11,6 +11,8 @@ $(document).ready(function($) {
         stego_key      : [],
         lsb            : [],
         image_diff     : [],
+        sub_arrays     : [],
+        dct    : [],
 
         stats          : {
             largest_diff          :  0,
@@ -70,13 +72,13 @@ $(document).ready(function($) {
         canvas_draw_image(image.mod_colors);
 
         // Рисуем изображение пикселями
-        pixel_draw_image(image.mod_colors);
+        // pixel_draw_image(image.mod_colors);
 
         // Выврлим статистику в консоль
         get_image_stats(image);
 
         // Показываем блоки
-        show_blocks($('.block-pixels'), $('.block-mod-img'), $('.block-key'));
+        show_blocks($('.block-mod-img'), $('.block-mod-key'));
     });
 
 
@@ -91,16 +93,30 @@ $(document).ready(function($) {
         // Рисуем канвас видоизменённых пикслелей
         canvas_draw_image(image.mod_colors);
 
-        // Рисуем изображение пикселями
-        pixel_draw_image(image.mod_colors);
-
 
         // Выврлим статистику в консоль
         get_image_stats(image);
 
         // Показываем блоки пикселей и готовую картинку
-        show_blocks($('.block-pixels'), $('.block-mod-img'));
+        show_blocks($('.block-mod-img'));
 
+    });
+
+
+    /// При клике на кропке "Метод LSB"
+    $('#dct-encript').click(function(event) {
+
+
+        dct_create_function(image);
+
+        dct_colors_from_coofs(image);
+
+        // Рисуем канвас видоизменённых пикслелей
+        canvas_draw_image(image.mod_colors);
+
+
+        // Показываем блоки пикселей и готовую картинку
+        show_blocks($('.block-mod-img'));
 
     });
 

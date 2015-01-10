@@ -100,7 +100,15 @@ function quant_modify_diffs(image, string) {
     }
 
     // Присваиваем новое значение
-    image.mod_colors[i*5+1][0] = image.mod_colors[i*5+1][0] + (position - old_position);
+    var move = position - old_position; // Сдвиг в стеганоключе
+    var shifted = image.mod_colors[i*5+1][0] + move; // Сдвинутое значение
+
+    // Изменяем следующий пиксель (или предудыщий если нет места)
+    if ( shifted > 255 || shifted < 0 ) {
+      image.mod_colors[i*5][0] += -1 * move;
+    } else {
+      image.mod_colors[i*5+1][0] += move;
+    }
 
   }
 

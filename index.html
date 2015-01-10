@@ -24,6 +24,8 @@
         <script src="assets/js/print_pixels.js"></script>
         <script src="assets/js/lsb_algorithm.js"></script>
         <script src="assets/js/quant_algorithm.js"></script>
+        <script src="assets/js/dct_algorithm_helpers.js"></script>
+        <script src="assets/js/dct_algorithm.js"></script>
         <script src="assets/js/app.js"></script>
         <script src="assets/js/visual.js"></script>
     </head>
@@ -56,12 +58,14 @@
             <!--  -->
             <button id="lsb-encript" class="button info">Метод LSB</button>
             <button id="quant-encript" class="button info">Метод Quant</button>
+            <button id="dct-encript" class="button info">Метод DCT</button>
         </div>
 
         <!-- Методы расшифровки -->
         <div class="row block-decript-methods" hidden>
             <button id="lsb-decript" class="button info">Метод LSB</button>
             <button id="quant-decript" class="button info">Метод Quant</button>
+            <button id="dct-decript" class="button info">Метод Quant</button>
         </div>
 
 
@@ -82,7 +86,7 @@
         </div>
 
         <!-- Стеганоключь -->
-        <div class="row block-mod-img" hidden>
+        <div class="row block-mod-key" hidden>
             <h1>Стеганоключь</h1>
 
             <!-- Кнопка скачать ключ -->
