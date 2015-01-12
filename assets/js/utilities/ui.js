@@ -32,7 +32,7 @@ $(document).ready(function($) {
       // Сохраняем канвас на клик как файл png
       $('#image-mod-download').click(function(e) {
         var img = document.getElementById('encripted-pic');
-        var a = $("<a>").attr("href", img.src).attr("download", "example." + image.extension).appendTo("body");
+        var a = $("<a>").attr("href", img.src).attr("download", image.name + "." + image.extension).appendTo("body");
         a[0].click();
         a.remove();
       });

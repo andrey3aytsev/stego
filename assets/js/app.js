@@ -60,6 +60,9 @@ $(document).ready(function($) {
     // При клике на кропке "Метод QUANT"
     $('#quant-encript').click(function(event) {
 
+        // Задаём имя  выходного изображения
+        image.name = 'quant-encripted';
+
         // Находим разницы цветов
         quant_color_diffs(image);
 
@@ -86,6 +89,9 @@ $(document).ready(function($) {
     /// При клике на кропке "Метод LSB"
     $('#lsb-encript').click(function(event) {
 
+        // Задаём имя  выходного изображения
+        image.name = 'lsb-encripted';
+
         // Показываем блок для выбора шага
         $('#lsb-encript-start').show();
         $('.block-step-field').removeClass('ui-hidden');
@@ -111,6 +117,9 @@ $(document).ready(function($) {
 
     /// При клике на кропке "Метод DCT"
     $('#dct-encript').click(function(event) {
+
+        // Задаём имя  выходного изображения
+        image.name = 'dct-encripted';
 
         // Генерируем координаты
         cord_gen($('#x_y_cord_enc'));
