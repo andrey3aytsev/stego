@@ -6,13 +6,19 @@ $(document).ready(function($) {
 
     // Создаём глобальный обьект = исходная картинка
     image = {
+        type           : "image/png",
+        name           : "example",
+        extension      : "png",
         src_colors     : [],
         mod_colors     : [],
         stego_key      : [],
         lsb            : [],
+        lsb_step       : 7,
         image_diff     : [],
         sub_arrays     : [],
-        dct    : [],
+        dct            : [],
+        coof_num       : [14, 29],
+        dct_P          : 25,
 
         stats          : {
             largest_diff          :  0,
@@ -26,17 +32,12 @@ $(document).ready(function($) {
     };
 
 
-    // При полной загрузке окна
-    $(window).on('load', function(event) {
-
-        // Читаем изображение и кладём цвета в массив
-        canvas_read_image(image);
-
-    });
-
 
     // При нажатии "закодировать"
     $('#encript').click(function(event) {
+
+        // Читаем изображение и кладём цвета в массив
+        canvas_read_image(image);
 
         // Скрываем кнопки и показываем форму
         hide_blocks($('.block-init-buttons'));
@@ -47,6 +48,9 @@ $(document).ready(function($) {
     // При нажатии "раскодировать"
     $('#decript').click(function(event) {
 
+        // Читаем изображение и кладём цвета в массив
+        canvas_read_image(image);
+
         // Скрываем кнопки и показываем форму
         hide_blocks($('.block-init-buttons'));
         show_blocks($('.block-decript-methods'));
@@ -55,6 +59,9 @@ $(document).ready(function($) {
 
     // При клике на кропке "Метод QUANT"
     $('#quant-encript').click(function(event) {
+
+        // Задаём имя  выходного изображения
+        image.name = 'quant-encripted';
 
         // Находим разницы цветов
         quant_color_diffs(image);
@@ -71,9 +78,6 @@ $(document).ready(function($) {
         // Рисуем канвас видоизменённых пикслелей
         canvas_draw_image(image.mod_colors);
 
-        // Рисуем изображение пикселями
-        // pixel_draw_image(image.mod_colors);
-
         // Выврлим статистику в консоль
         get_image_stats(image);
 
@@ -85,14 +89,22 @@ $(document).ready(function($) {
     /// При клике на кропке "Метод LSB"
     $('#lsb-encript').click(function(event) {
 
+        // Задаём имя  выходного изображения
+        image.name = 'lsb-encripted';
+
+        // Показываем блок для выбора шага
+        $('#lsb-encript-start').show();
+        $('.block-step-field').removeClass('ui-hidden');
+    });
+
+    /// При клике на кропке "Метод LSB"
+    $('#lsb-encript-start').click(function(event) {
 
         // Изменяем значения в массиве цветов
         lsb_modify_array(image, get_msg_from_field());
 
-
         // Рисуем канвас видоизменённых пикслелей
         canvas_draw_image(image.mod_colors);
-
 
         // Выврлим статистику в консоль
         get_image_stats(image);
@@ -103,17 +115,37 @@ $(document).ready(function($) {
     });
 
 
-    /// При клике на кропке "Метод LSB"
+    /// При клике на кропке "Метод DCT"
     $('#dct-encript').click(function(event) {
 
+        // Задаём имя  выходного изображения
+        image.name = 'dct-encripted';
 
+        // Генерируем координаты
+        cord_gen($('#x_y_cord_enc'));
+
+        // Показываем блоки пикселей и готовую картинку
+        $('.block-porog-field').removeClass('ui-hidden');
+    });
+
+
+    /// При клике на кропке "Закодировать DCT"
+    $('#dct-encript-start').click(function(event) {
+
+        // Считаем ДКТ коэффициенты
         dct_create_function(image);
 
+        // Внедряем сообщение в коэффциценты
+        dct_modify_array(image, get_msg_from_field());
+
+        // Считаем цвета из коэффицентов
         dct_colors_from_coofs(image);
 
         // Рисуем канвас видоизменённых пикслелей
         canvas_draw_image(image.mod_colors);
 
+        // Выврлим статистику в консоль
+        get_image_stats(image);
 
         // Показываем блоки пикселей и готовую картинку
         show_blocks($('.block-mod-img'));
@@ -129,8 +161,16 @@ $(document).ready(function($) {
     });
 
 
+
     // При нажатии "lsb раскодировать"
     $('#lsb-decript').click(function(event) {
+
+        // Показываем блок для выбора шага
+        $('#lsb-decript-start').show();
+        $('.block-step-field').removeClass('ui-hidden');
+    });
+
+    $('#lsb-decript-start').click(function(event) {
 
         // Читаем массив цветов и создаём lsb массив
         lsb_create_array(image);
@@ -143,22 +183,48 @@ $(document).ready(function($) {
         show_blocks($('.block-code'));
     });
 
-
     // При нажатии "quant раскодировать"
     $('#quant-decript').click(function(event) {
 
         // Находим разницы цветов
         quant_color_diffs(image);
 
-
         // Генерируем шкалу от -255 до 255
         quant_generate_scale(image);
-
 
         // Показываем скрываем кнопки и показываем форму
         hide_blocks($('.block-decript-methods'));
         show_blocks($('.block-key-field'));
     });
+
+    // При нажатии "quant раскодировать"
+    $('#dct-decript').click(function(event) {
+
+
+
+        // Генерируем координаты
+        cord_gen($('#x_y_cord_dec'));
+
+        // Показываем скрываем кнопки и показываем форму
+        hide_blocks($('.block-decript-methods'));
+        show_blocks($('.block-select-coords'));
+    });
+
+    // При нажатии "quant раскодировать"
+    $('#dct-decript-start').click(function(event) {
+
+        // Считаем ДКТ коэффициенты
+        dct_create_function(image);
+
+        // Находим зашифрованный текст
+        dct_decript(image);
+
+        // Показываем скрываем кнопки и показываем форму
+        hide_blocks($('.block-select-coords'), $('.block-porog-field'));
+        show_blocks($('.block-code'));
+
+    });
+
 
 
     // При нажатии "quant раскодировать"
@@ -169,7 +235,6 @@ $(document).ready(function($) {
 
         // Расишфровываем сообщение
         quant_read_message(image);
-
 
         // Показываем скрываем кнопки и показываем форму
         hide_blocks($('.block-key-field'));

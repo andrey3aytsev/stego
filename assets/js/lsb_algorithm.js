@@ -12,9 +12,11 @@ function lsb_create_array (image) {
     // По всем пикселям проходим
     for (var i = 0; i < image.size; i++) {
 
-        var r_channel = dec_2_bin(array1[i][0]);
+        if ( i % image.lsb_step == 0 ) {
+            var r_channel = dec_2_bin(array1[i][0]);
+            array2.push( r_channel[7] );
 
-        array2.push( r_channel[7] );
+        }
     }
 
     image.lsb = array2;
@@ -28,16 +30,16 @@ function lsb_modify_array(image, string) {
     var array1 = image.src_colors;
     var array2 = array1;
 
-
+    var ct = 0;
     // По всем пикселям проходим
     for (var i = 0; i < image.size; i++) {
-
         var r_channel = dec_2_bin(array1[i][0]);
         var g_channel = dec_2_bin(array1[i][1]);
         var b_channel = dec_2_bin(array1[i][2]);
 
-        if (i < string.length ) {
-            r_channel = r_channel.substring(0, 7) + string[i];
+        if ( (i % image.lsb_step == 0) && (ct < string.length ) ) {
+            r_channel = r_channel.substring(0, 7) + string[ct];
+            ct++;
         }
 
         image.mod_colors.push([
