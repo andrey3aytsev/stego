@@ -10,15 +10,15 @@ function dct_sigma(argument) {
 function dct_encript_bit (bit, val1, val2) {
 
     // Порог
-    P = 10, P_opposite = P * -1;
+    P_opposite = image.dct_P * -1;
 
     var gap = Math.abs(val1) - Math.abs(val2);
 
     if ( bit == '0' ) {
 
-        if ( gap < P ) {
+        if ( gap < image.dct_P ) {
 
-            diff = (P - gap) / 2;
+            diff = (image.dct_P - gap) / 2;
 
             // Если оба положительные
             if ( (val1 >= 0) && (val2 >= 0) ) {

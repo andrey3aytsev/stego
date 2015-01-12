@@ -23,7 +23,7 @@ function canvas_draw_image (array) {
         }
     }
 
-    var img = canvas_mod.toDataURL("image/png", 1);
+    var img = canvas_mod.toDataURL(image.type, 1);
     $("#encripted-pic").attr('src', img);
 
 

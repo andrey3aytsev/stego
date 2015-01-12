@@ -125,35 +125,33 @@ function function_return (argument) {
 // Функция получения исходного сообщения
 function quant_read_message(image) {
 
-  // Контейнер для выходного текста
-  var output_text = $("#output-text");
+    // Контейнер для выходного текста
+    var output_text = $("#output-text");
 
-  var result = [];
+    var result = [];
 
-  for (var i = 0; i < image.quant_diffs.length; i++) {
-    if ( i % 5 == 0 ) {
-
-      console.log(image.stego_key[ image.quant_scale.indexOf( image.quant_diffs[i] ) ]);
-      result.push(
-          image.stego_key[ image.quant_scale.indexOf( image.quant_diffs[i] ) ]
-      )
-    }
-  }
-
-  for ( var i = 0; i < result.length - 8 ; i = i + 8) {
-
-      var string = '';
-
-      // Внутренний цикл по битам
-      for ( var j = i; j - 8 < i; j++ ) {
-          string += result[j];
+    for (var i = 0; i < image.quant_diffs.length; i++) {
+      if ( i % 5 == 0 ) {
+        result.push(
+            image.stego_key[ image.quant_scale.indexOf( image.quant_diffs[i] ) ]
+        )
       }
+    }
 
-      var output = ABC.toAscii(string);
+    for ( var i = 0; i < result.length - 8 ; i = i + 8) {
 
-      // Выводим букву
-      $(output_text).append( output );
-  }
+        var string = '';
+
+        // Внутренний цикл по битам
+        for ( var j = i; j - 8 < i; j++ ) {
+            string += result[j];
+        }
+
+        var output = ABC.toAscii(string);
+
+        // Выводим букву
+        $(output_text).append( output );
+    }
 
 }
 
