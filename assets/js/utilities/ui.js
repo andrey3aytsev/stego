@@ -22,7 +22,7 @@ $(document).ready(function($) {
 
             $("#dropzone").addClass('loaded');
             $(".block-init-buttons").slideDown();
-            $("#src-img").attr('src', oFREvent.target.result);
+            $("#src-img, #src-img-view").attr('src', oFREvent.target.result);
           };
       };
 
@@ -148,7 +148,7 @@ $(document).ready(function($) {
               file = event.target.file,
               getBinaryDataReader = new FileReader();
 
-            $('#src-img').attr('src', data);
+            $('#src-img, #src-img-view').attr('src', data);
             $("#dropzone").addClass('loaded');
             $(".block-init-buttons").slideDown();
 

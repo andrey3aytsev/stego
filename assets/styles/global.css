@@ -75,6 +75,9 @@ padding: 0 0 6px !important;
   display: none;
 }
 
+#src-img {
+  display: none;
+}
 
 
 /*Drop*/
