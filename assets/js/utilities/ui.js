@@ -8,7 +8,7 @@ $(document).ready(function($) {
 
 
       // Открыть загрузку файла на клик
-      $("#upload").click(function() {
+      $("#dropzone").click(function() {
         $("#file-input").click();
       });
 
@@ -19,8 +19,10 @@ $(document).ready(function($) {
           oFReader.readAsDataURL(document.getElementById("file-input").files[0]);
 
           oFReader.onload = function (oFREvent) {
-            $("#title-src-img , .block-init-buttons").slideDown();
-            $("#src-img").attr('src', oFREvent.target.result).addClass('th');
+
+            $("#dropzone").addClass('loaded');
+            $(".block-init-buttons").slideDown();
+            $("#src-img").attr('src', oFREvent.target.result);
           };
       };
 
@@ -82,6 +84,83 @@ $(document).ready(function($) {
         }
       });
 
+
+      // Drag and drop
+
+        var dropApp = dropApp || {};
+
+        (function(){
+          var dropContainer;
+
+          dropApp.setup = function () {
+            dropContainer = document.getElementById("dropzone");
+
+            dropContainer.addEventListener("dragenter", function(event){
+              event.stopPropagation();
+              event.preventDefault();
+            }, false);
+            dropContainer.addEventListener("dragover", function(event){
+              event.stopPropagation();
+              event.preventDefault();
+            }, false);
+            dropContainer.addEventListener("drop", dropApp.handleDrop, false);
+          };
+
+          dropApp.handleDrop = function (event) {
+            var dt = event.dataTransfer,
+              files = dt.files;
+
+            event.stopPropagation();
+            event.preventDefault();
+
+            $.each(files, function(i, file){
+              function readItems(){
+                console.log((file.size/1000000) + "+ MB")
+                console.log(file.type)
+                var reader = new FileReader();
+                reader.index = i;
+                reader.file = file;
+                reader.addEventListener("loadend", dropApp.buildImageListItem, false);
+                reader.readAsDataURL(file);
+              }
+              if(file.size < 2097152) {
+                if(file.type != "image/jpeg") {
+                  if(file.type != "image/png") {
+                    alert("Incorrect file type");
+                  }
+
+                  else {
+                    readItems();
+                  }
+                }
+                else {
+                  readItems();
+                }
+
+              } else {
+                alert("File is too large, needs to be below 2MB.");
+              }
+            });
+          };
+
+          dropApp.buildImageListItem = function(event) {
+            var data = event.target.result,
+              file = event.target.file,
+              getBinaryDataReader = new FileReader();
+
+            $('#src-img').attr('src', data);
+            $("#dropzone").addClass('loaded');
+            $(".block-init-buttons").slideDown();
+
+            getBinaryDataReader.readAsBinaryString(file);
+          };
+
+          window.addEventListener("load", dropApp.setup, false);
+        })();
+
+        $(document).on("click", ".options",function(){
+          $(this).parent().remove();
+        });
 });
 
 // Сохраняем стеганоключ из поля
@@ -118,13 +197,3 @@ function cord_gen(element) {
     $(element).addClass('filled');
   }
 }
-
-
-// Обрезать масштабы изображения до кратности 8-ми
-function image_crop(image) {
-  canvas_src.height = canvas_mod.height = src_img_height -= src_img_height % 8;
-  canvas_src.width  = canvas_mod.width = src_img_width -= src_img_width % 8;
-  image.size = src_img_height * src_img_width;
-}
-
-

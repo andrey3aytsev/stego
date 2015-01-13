@@ -13,7 +13,7 @@ $(document).ready(function($) {
         mod_colors     : [],
         stego_key      : [],
         lsb            : [],
-        lsb_step       : 7,
+        lsb_step       : 5,
         image_diff     : [],
         sub_arrays     : [],
         dct            : [],
@@ -30,7 +30,6 @@ $(document).ready(function($) {
             structural_content    :  0,
         }
     };
-
 
 
     // При нажатии "закодировать"
@@ -170,6 +169,7 @@ $(document).ready(function($) {
         $('.block-step-field').removeClass('ui-hidden');
     });
 
+
     $('#lsb-decript-start').click(function(event) {
 
         // Читаем массив цветов и создаём lsb массив
@@ -182,6 +182,7 @@ $(document).ready(function($) {
         hide_blocks($('.block-decript-methods'));
         show_blocks($('.block-code'));
     });
+
 
     // При нажатии "quant раскодировать"
     $('#quant-decript').click(function(event) {
@@ -197,10 +198,9 @@ $(document).ready(function($) {
         show_blocks($('.block-key-field'));
     });
 
+
     // При нажатии "quant раскодировать"
     $('#dct-decript').click(function(event) {
-
-
 
         // Генерируем координаты
         cord_gen($('#x_y_cord_dec'));
@@ -209,6 +209,7 @@ $(document).ready(function($) {
         hide_blocks($('.block-decript-methods'));
         show_blocks($('.block-select-coords'));
     });
+
 
     // При нажатии "quant раскодировать"
     $('#dct-decript-start').click(function(event) {
@@ -224,7 +225,6 @@ $(document).ready(function($) {
         show_blocks($('.block-code'));
 
     });
-
 
 
     // При нажатии "quant раскодировать"
