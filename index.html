@@ -33,22 +33,22 @@
     <body>
 
         <div class="row">
-            <!-- Кнопка загрузки файла -->
-            <button id="upload" class="button warning">Upload a File!</button>
+            <!-- Drag and drop -->
+            <div id="dropzone" class="zones">
+
+              <div class="img-cont">
+                  <!-- Картинка -->
+                  <img  id="src-img" />
+              </div>
+
+
+              <!-- Канвас для чтения исходного изображения -->
+              <canvas id="canvas-src-image"></canvas>
+            </div>
+
             <input  id="file-input" type="file" />
-
         </div>
 
-
-        <!-- Исходная картинка и её канвас -->
-        <div class="row block-src-img">
-            <h1 id="title-src-img" hidden>Исходное изображение</h1>
-            <!-- Картинка -->
-            <img  id="src-img" />
-
-            <!-- Канвас для чтения исходного изображения -->
-            <canvas id="canvas-src-image"></canvas>
-        </div>
 
 
         <!-- Конпки "закодировать"" / "раскодировать"" -->

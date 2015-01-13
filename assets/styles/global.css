@@ -74,3 +74,65 @@ padding: 0 0 6px !important;
 #file-input {
   display: none;
 }
+
+
+
+/*Drop*/
+#dropzone {
+  position: relative;
+  padding: 20px;
+  margin: 10px;
+  background: #444;
+  color: #fff;
+  width: 500px;
+  height: 400px;
+  cursor: pointer;
+  font-size: 21px;
+  font-weight: bold;
+  line-height: 1.3em;
+  border: 2px dashed #aaa;
+  border-radius: 10px;
+  box-shadow: 0 0 0 4px #444, 2px 1px 6px 4px rgba(10, 10, 0, 0.5);
+  text-shadow: -1px -1px #aa3030;
+  font-weight: normal;
+  text-align: center;
+}
+
+#dropzone .img-cont {
+  position: relative;
+  height: 100%;width: 100%;
+}
+
+#dropzone img {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#dropzone:hover:after {
+  color: #aaa;
+}
+
+#dropzone.loaded:after {
+  display: none;
+}
+
+
+#dropzone:after {
+  transition: all .3s;
+  color: #777;
+  content: "Загрузите Ваше изображение";
+  text-shadow: none;
+  font-weight: 300;
+  width: 100%;
+  position: absolute;
+  font-size: 18px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
