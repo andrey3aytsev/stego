@@ -65,6 +65,10 @@ padding: 0 0 6px !important;
   background: #f9cc9d;
 }
 
+.is-hidden {
+  display: none;
+}
+
 .ui-hidden {
   height: 0 !important;
   opacity: 0 !important;
@@ -99,6 +103,11 @@ padding: 0 0 6px !important;
   text-shadow: -1px -1px #aa3030;
   font-weight: normal;
   text-align: center;
+  transition: background .3s;
+}
+
+#dropzone.mouseover {
+  background: #595959;
 }
 
 #dropzone .img-cont {
@@ -116,7 +125,7 @@ padding: 0 0 6px !important;
   max-height: 100%;
 }
 
-#dropzone:hover:after {
+#dropzone:hover:after , #dropzone.mouseover:after {
   color: #aaa;
 }
 
@@ -126,7 +135,7 @@ padding: 0 0 6px !important;
 
 
 #dropzone:after {
-  transition: all .3s;
+  transition: color .3s;
   color: #777;
   content: "Загрузите Ваше изображение";
   text-shadow: none;

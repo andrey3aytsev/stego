@@ -14,7 +14,7 @@ function canvas_draw_image (array) {
             cxt_mod.fillStyle = "rgb(" +
                 + array[i][0] + ','
                 + array[i][1] + ','
-                + array[i][2] + ');';
+                + array[i][2] + ')';
 
             cxt_mod.fillRect(x, y, 1, 1);
 

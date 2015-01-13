@@ -7,9 +7,6 @@ function canvas_read_image(image) {
     // Инициализируем канвас
     canvas_init();
 
-    var array = [];
-
-
     // Отображаем в канвасе исходное изображение
     cxt_src.drawImage(src_img, 0, 0, src_img_width, src_img_height);
 
@@ -29,12 +26,8 @@ function canvas_read_image(image) {
         var g_channel = parseInt(hexString.slice(4,6), 16);
         var r_channel = parseInt(hexString.slice(6,8), 16);
 
-
         // Записываем эти значения в массив в десятичном виде
-        array.push([r_channel, g_channel, b_channel ]);
+        image.src_colors.push([r_channel, g_channel, b_channel ]);
 
     }
-
-    image.src_colors = array;
-    image.size = array.length;
 }

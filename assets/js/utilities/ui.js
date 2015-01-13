@@ -12,6 +12,11 @@ $(document).ready(function($) {
         $("#file-input").click();
       });
 
+      $("#dropzone").hover(function() {
+        $(this).addClass('mouseover');
+      }, function() {
+        $(this).removeClass('mouseover');
+      });
 
       // Показать предпросмотр картики
       function PreviewImage() {
@@ -115,8 +120,6 @@ $(document).ready(function($) {
 
             $.each(files, function(i, file){
               function readItems(){
-                console.log((file.size/1000000) + "+ MB")
-                console.log(file.type)
                 var reader = new FileReader();
                 reader.index = i;
                 reader.file = file;
@@ -127,18 +130,14 @@ $(document).ready(function($) {
                 if(file.type != "image/jpeg") {
                   if(file.type != "image/png") {
                     alert("Incorrect file type");
-                  }
-
-                  else {
-                    readItems();
-                  }
+                  } else { readItems(); }
                 }
                 else {
                   readItems();
                 }
 
               } else {
-                alert("File is too large, needs to be below 2MB.");
+                alert("Файл слишком большой, загрузите файл меньше 2MB.");
               }
             });
           };

@@ -88,6 +88,9 @@ $(document).ready(function($) {
     /// При клике на кропке "Метод LSB"
     $('#lsb-encript').click(function(event) {
 
+
+
+
         // Задаём имя  выходного изображения
         image.name = 'lsb-encripted';
 
@@ -99,8 +102,10 @@ $(document).ready(function($) {
     /// При клике на кропке "Метод LSB"
     $('#lsb-encript-start').click(function(event) {
 
+
         // Изменяем значения в массиве цветов
         lsb_modify_array(image, get_msg_from_field());
+
 
         // Рисуем канвас видоизменённых пикслелей
         canvas_draw_image(image.mod_colors);

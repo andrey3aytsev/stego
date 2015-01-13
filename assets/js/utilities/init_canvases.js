@@ -13,6 +13,8 @@ function canvas_init() {
     src_img_width   -= src_img_width % 8;
     src_img_height  -= src_img_height % 8;
 
+    image.size = src_img_height * src_img_width;
+
     // Канвас для чтения изображения
     canvas_src     =  $('#canvas-src-image')[0];
     cxt_src        =  canvas_src.getContext('2d');

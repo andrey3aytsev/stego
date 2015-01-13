@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="assets/styles/global.css">
 
         <!-- Скрипты -->
+        <script src="assets/js/vendor/prefixfree.min.js"></script>
         <script src="assets/js/vendor/modernizr.js"></script>
         <script src="assets/js/vendor/jquery.js"></script>
         <script src="assets/js/vendor/foundation.min.js"></script>
@@ -40,31 +41,25 @@
                   <!-- Картинка -->
                   <img  id="src-img-view" />
               </div>
-
-
               <!-- Канвас для чтения исходного изображения -->
 
             </div>
 
-            <img  id="src-img" hidden />
+            <!-- Контейнеры исходного изображения -->
+            <img  id="src-img"  />
             <canvas id="canvas-src-image"></canvas>
-
             <input  id="file-input" type="file" />
         </div>
 
 
-
-
-
-
         <!-- Конпки "закодировать"" / "раскодировать"" -->
-        <div class="row block-init-buttons" hidden>
+        <div class="row block-init-buttons is-hidden">
             <button id="encript" class="button">Закодировать</button>
             <button id="decript" class="button">Раскодировать</button>
         </div>
 
         <!-- Форма для ввода сообщения -->
-        <div class="row block-msg-input" hidden>
+        <div class="row block-msg-input is-hidden">
 
             <!-- Поле ввода  -->
             <input type="text" id="input" placeholder="Введите ваш текст...">
@@ -75,7 +70,7 @@
         </div>
 
         <!-- Методы расшифровки -->
-        <div class="row block-decript-methods" hidden>
+        <div class="row block-decript-methods is-hidden">
             <button id="lsb-decript" class="button info">Метод LSB</button>
             <button id="quant-decript" class="button info">Метод Quant</button>
             <button id="dct-decript" class="button info">Метод DCT</button>
@@ -83,14 +78,14 @@
 
 
         <!-- Форма для ввода ключа -->
-        <div class="row block-key-field" hidden>
+        <div class="row block-key-field is-hidden">
             <h2>Введите ключ для расшифрования</h2>
             <textarea id="quant-key-field"></textarea>
             <button id="quant-decript-start" class="button">Применить ключ</button>
         </div>
 
         <!-- Ввод Стеганокоординат -->
-        <div class="row block-select-coords" hidden>
+        <div class="row block-select-coords is-hidden">
 
             <!-- Блок с выбором координат -->
             <div class="large-12 columns">
@@ -152,7 +147,7 @@
 
 
         <!-- Блок для пикселей -->
-        <div class="row block-pixels" hidden>
+        <div class="row block-pixels is-hidden">
             <h1>Закодированное изображение в пикселях</h1>
 
             <!-- Контейнер для блоков-пикселей -->
@@ -160,7 +155,7 @@
         </div>
 
         <!-- Стеганоключь -->
-        <div class="row block-mod-key" hidden>
+        <div class="row block-mod-key is-hidden">
             <h1>Стеганоключь</h1>
 
             <!-- Кнопка скачать ключ -->
@@ -168,10 +163,8 @@
         </div>
 
 
-
-
         <!-- Изменённая картинка и кнопка скачать -->
-        <div class="row block-mod-img" hidden>
+        <div class="row block-mod-img is-hidden">
             <h1>Закодированное изображение</h1>
 
             <!-- Канвас для отрисовки модифицированного изображения -->
@@ -184,7 +177,7 @@
 
 
         <!-- Блок расшифрованного кода -->
-        <div class="row block-code" hidden>
+        <div class="row block-code is-hidden">
 
             <!-- Текст -->
             <div id="output-text"></div>
