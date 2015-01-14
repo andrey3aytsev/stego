@@ -22,10 +22,6 @@ function canvas_read_image(image) {
         // Запоминаем значения текущего пикселя
         var hexString = value.toString(16);
 
-        // console.log(hexString);
-
-        // if (i==100) {break;};
-
         if ( hexString == 0 ) {
             r_channel = g_channel = b_channel = 255;
         } else {
@@ -38,6 +34,4 @@ function canvas_read_image(image) {
         image.src_colors.push([r_channel, g_channel, b_channel ]);
 
     }
-
-    console.log(image.src_colors[2]);
 }

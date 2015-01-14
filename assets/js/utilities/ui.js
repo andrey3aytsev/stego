@@ -6,7 +6,6 @@ $(document).ready(function($) {
       // Инициализируем фаундейшн
       $(document).foundation();
 
-
       // Открыть загрузку файла на клик
       $("#dropzone").click(function() {
         $("#file-input").click();
@@ -51,6 +50,8 @@ $(document).ready(function($) {
       // Сохраняем канвас на клик как файл png
       $('#image-mod-download').click(function(e) {
 
+          if (blobUrl !== null) { window.URL.revokeObjectURL(blobUrl); }
+
           var blob = b64toBlob(image.mod_code.split(",").last(), image.type);
           var blobUrl = URL.createObjectURL(blob);
 
@@ -58,16 +59,9 @@ $(document).ready(function($) {
             'href': blobUrl,
             'download': image.name + "." + image.extension
           });
+
       });
 
-
-      // Разрешаем ввод только в английской раскладке
-      $("#input").keypress(function(event){
-          var ew = event.which;
-          if(1 <= ew && ew <= 122)
-              return true;
-          return false;
-      });
 
 
       // Изменяем значение  DCT порога через слайдер
@@ -171,6 +165,17 @@ $(document).ready(function($) {
 
           window.addEventListener("load", dropApp.setup, false);
         })();
+
+
+
+
+        // Разрешаем ввод только в английской раскладке
+        // $("#input").keypress(function(event){
+        //     var ew = event.which;
+        //     if(1 <= ew && ew <= 122)
+        //         return true;
+        //     return false;
+        // });
 });
 
 // Сохраняем стеганоключ из поля
