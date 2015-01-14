@@ -23,8 +23,8 @@ function canvas_draw_image (array) {
         }
     }
 
-    var img = canvas_mod.toDataURL(image.type, 1);
-    $("#encripted-pic").attr('src', img);
+    image.mod_code = canvas_mod.toDataURL(image.type);
+    $("#encripted-pic").attr('src', image.mod_code);
 
 
 }

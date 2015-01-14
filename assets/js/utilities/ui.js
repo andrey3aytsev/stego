@@ -15,7 +15,23 @@ $(document).ready(function($) {
       $("#dropzone").hover(function() {
         $(this).addClass('mouseover');
       }, function() {
-        $(this).removeClass('mouseover');
+        $(this).removeClass('MOUSEOVER');
+      });
+
+      // При загрузке файла
+      $('#file-input').change(function() {
+
+        // Проверем расширение
+        var ext = $(this).val().split(".").last();
+        var size =  document.getElementById($(this).attr('id')).files[0].size / Math.pow(2, 20);
+
+        if ( $.inArray(ext, ["png", "jpg", "jpeg", "PNG", "JPG", "JPEG"]) < 0 )
+          { alert("Неправильный формат файла."); return; }
+
+        if ( size > 10 )
+          { alert("Файл слишком большой, загрузите файл меньше 2MB."); return; }
+
+        PreviewImage();
       });
 
       // Показать предпросмотр картики
@@ -31,17 +47,17 @@ $(document).ready(function($) {
           };
       };
 
-      $('#file-input').change(function(event) {
-        PreviewImage();
-      });
-
 
       // Сохраняем канвас на клик как файл png
       $('#image-mod-download').click(function(e) {
-        var img = document.getElementById('encripted-pic');
-        var a = $("<a>").attr("href", img.src).attr("download", image.name + "." + image.extension).appendTo("body");
-        a[0].click();
-        a.remove();
+
+          var blob = b64toBlob(image.mod_code.split(",").last(), image.type);
+          var blobUrl = URL.createObjectURL(blob);
+
+          $(this).attr({
+            'href': blobUrl,
+            'download': image.name + "." + image.extension
+          });
       });
 
 
@@ -91,7 +107,6 @@ $(document).ready(function($) {
 
 
       // Drag and drop
-
         var dropApp = dropApp || {};
 
         (function(){
@@ -126,10 +141,10 @@ $(document).ready(function($) {
                 reader.addEventListener("loadend", dropApp.buildImageListItem, false);
                 reader.readAsDataURL(file);
               }
-              if(file.size < 2097152) {
+              if(file.size < 2097152*5) {
                 if(file.type != "image/jpeg") {
                   if(file.type != "image/png") {
-                    alert("Incorrect file type");
+                    alert("Неправильный формат файла");
                   } else { readItems(); }
                 }
                 else {
@@ -156,10 +171,6 @@ $(document).ready(function($) {
 
           window.addEventListener("load", dropApp.setup, false);
         })();
-
-        $(document).on("click", ".options",function(){
-          $(this).parent().remove();
-        });
 });
 
 // Сохраняем стеганоключ из поля
@@ -195,4 +206,30 @@ function cord_gen(element) {
     }
     $(element).addClass('filled');
   }
+}
+
+
+// Конвертируем в БЛОБ
+function b64toBlob(b64Data, contentType) {
+    contentType = contentType || '';
+    sliceSize = 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, {type: 'octet/stream'});
+    return blob;
 }

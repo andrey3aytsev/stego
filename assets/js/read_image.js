@@ -22,12 +22,22 @@ function canvas_read_image(image) {
         // Запоминаем значения текущего пикселя
         var hexString = value.toString(16);
 
-        var b_channel = parseInt(hexString.slice(2,4), 16);
-        var g_channel = parseInt(hexString.slice(4,6), 16);
-        var r_channel = parseInt(hexString.slice(6,8), 16);
+        // console.log(hexString);
+
+        // if (i==100) {break;};
+
+        if ( hexString == 0 ) {
+            r_channel = g_channel = b_channel = 255;
+        } else {
+            var b_channel = parseInt(hexString.slice(2,4), 16);
+            var g_channel = parseInt(hexString.slice(4,6), 16);
+            var r_channel = parseInt(hexString.slice(6,8), 16);
+        }
 
         // Записываем эти значения в массив в десятичном виде
         image.src_colors.push([r_channel, g_channel, b_channel ]);
 
     }
+
+    console.log(image.src_colors[2]);
 }

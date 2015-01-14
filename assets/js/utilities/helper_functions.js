@@ -49,9 +49,12 @@ makeTextFile = function (text) {
   return textFile;
 }
 
-
-
-
+// Выбираем последний элемент массива
+if (!Array.prototype.last){
+    Array.prototype.last = function(){
+        return this[this.length - 1];
+    };
+};
 
 
 
