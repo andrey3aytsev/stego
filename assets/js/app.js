@@ -22,6 +22,7 @@ $(document).ready(function($) {
 
         stats          : {
             largest_diff          :  0,
+            smallest_diff         :  255,
             average_diff          :  0,
             average_error         :  0,
             signal_to_noise       :  0,

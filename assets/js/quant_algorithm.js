@@ -11,7 +11,7 @@ function quant_color_diffs (image) {
   // По всем пикселям
   for (var i = 0; i < image.size - 1; i++) {
 
-    var tmp = image.src_colors[i+1][0] - image.src_colors[i][0];
+    var tmp = image.src_colors[i+1][2] - image.src_colors[i][2];
     image.quant_diffs.push(tmp);
   }
 
@@ -33,7 +33,7 @@ function quant_tetta_function (image) {
 
     // По элементам строки
     for (var j = 0; j < src_img_width; j++) {
-      output += image.src_colors[ i*src_img_width + j ][0]
+      output += image.src_colors[ i*src_img_width + j ][2]
     }
 
     output = (output + added) % 2;
@@ -101,13 +101,13 @@ function quant_modify_diffs(image, string) {
 
     // Присваиваем новое значение
     var move = position - old_position; // Сдвиг в стеганоключе
-    var shifted = image.mod_colors[i*5+1][0] + move; // Сдвинутое значение
+    var shifted = image.mod_colors[i*5+1][2] + move; // Сдвинутое значение
 
     // Изменяем следующий пиксель (или предудыщий если нет места)
     if ( shifted > 255 || shifted < 0 ) {
-      image.mod_colors[i*5][0] += -1 * move;
+      image.mod_colors[i*5][2] += -1 * move;
     } else {
-      image.mod_colors[i*5+1][0] += move;
+      image.mod_colors[i*5+1][2] += move;
     }
 
   }
