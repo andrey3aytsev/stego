@@ -58,8 +58,8 @@ function get_image_stats (image) {
     Lapl_C_summ        +=   Math.pow( C_lapl, 2 );
     diff_summ_sq       +=   Math.pow( diff, 2 );
     C_summ             +=   C_x_y;
-    S_summ             +=   C_x_y;
-    C_summ_sq          +=   Math.pow( C_x_y, 2 );
+    S_summ_sq          +=   Math.pow( C_x_y, 2 );
+    C_summ_sq          +=   Math.pow( S_x_y, 2 );
     CS_summ            +=   S_x_y * C_x_y;
   }
 
@@ -72,7 +72,7 @@ function get_image_stats (image) {
   image.stats.max_signal_2_noise     =   image.size * Math.pow( C_max, 2 ) / C_summ_sq ;
   image.stats.norm_vzaim_correl      =   CS_summ / C_summ_sq ;
   image.stats.correl_quality         =   CS_summ / C_summ ;
-  image.stats.structur_quality       =   C_summ_sq / S_summ ;
+  image.stats.structur_quality       =   (C_summ_sq / S_summ_sq).toFixed(20) ;
 
   // Вывод в консоль
   console.log(" *** Разностные показатели искажения *** ");
@@ -86,12 +86,14 @@ function get_image_stats (image) {
   console.log("     Отношение «сигнал/шум» (SNR): ",    Math.pow( image.stats.norm_average_error, -1 ));
   console.log("Макс отношение «сигнал/шум» (PSR): ",    image.stats.max_signal_2_noise);
   console.log("        Качество изображения (IF): ",    1 - image.stats.norm_average_error);
+
   console.log(" ");
   console.log(" *** Корреляционные показатели *** ");
   console.log(" Нормированная взаимная корреляция (NC)", image.stats.norm_vzaim_correl);
   console.log(" Качесво корреляции (CQ)",                image.stats.correl_quality);
   console.log(" ");
+
   console.log(" *** Другие показатели *** ");
-  console.log(" Структурное содержание (SC)",            image.stats.correl_quality);
+  console.log(" Структурное содержание (SC)",            image.stats.structur_quality);
 
 }
