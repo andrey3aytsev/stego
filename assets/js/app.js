@@ -60,29 +60,44 @@ $(document).ready(function($) {
     // При клике на кропке "Метод QUANT"
     $('#quant-encript').click(function(event) {
 
-        // Задаём имя  выходного изображения
-        image.name = 'quant-encripted';
+        $('.spinner').fadeIn();
 
-        // Находим разницы цветов
-        quant_color_diffs(image);
+        setTimeout(function(){
 
-        // Находим массив Тетта функций
-        quant_tetta_function(image);
 
-        // Генерируем шкалу от -255 до 255
-        quant_generate_scale(image);
+            // Задаём имя  выходного изображения
+            image.name = 'quant-encripted';
 
-        // Модифицируем массив разниц
-        quant_modify_diffs(image, get_msg_from_field());
+            // Находим разницы цветов
+            quant_color_diffs(image);
 
-        // Рисуем канвас видоизменённых пикслелей
-        canvas_draw_image(image.mod_colors);
+            // Находим массив Тетта функций
+            quant_tetta_function(image);
 
-        // Выврлим статистику в консоль
-        get_image_stats(image);
+            // Генерируем шкалу от -255 до 255
+            quant_generate_scale(image);
 
-        // Показываем блоки
-        show_blocks($('.block-mod-img'), $('.block-mod-key'));
+            // Модифицируем массив разниц
+            quant_modify_diffs(image, get_msg_from_field());
+
+            // Рисуем канвас видоизменённых пикслелей
+            canvas_draw_image(image.mod_colors);
+
+            // Показываем блоки
+            show_blocks( $('.block-mod-key'));
+
+            // Выврлим статистику в консоль
+            get_image_stats(image);
+
+            $('.spinner').fadeOut(300, function(){
+                setTimeout(function(){
+                    $('.img-mod-cont').fadeIn();
+                }, 300)
+            });
+
+        }, 500)
+
+
 
     });
 
@@ -110,7 +125,6 @@ $(document).ready(function($) {
 
         // Изменяем значения в массиве цветов
         lsb_modify_array(image, get_msg_from_field());
-
 
         // Рисуем канвас видоизменённых пикслелей
         canvas_draw_image(image.mod_colors);
