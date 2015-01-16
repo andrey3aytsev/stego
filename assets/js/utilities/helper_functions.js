@@ -45,6 +45,41 @@ makeTextFile = function (text) {
 }
 
 
+// Чтение текстового файла
+function readText(filePath) {
+  // Проверем расширение
+  var ext = $("#key_upload_file").val().split(".").last();
+  var size =  document.getElementById($("#key_upload_file").attr('id')).files[0].size / Math.pow(2, 9);
+
+  if ( ext != "txt" )
+    { alert("Неправильный формат файла."); return; }
+
+  if ( size > 10 )
+    { alert("Файл слишком большой, загрузите файл меньше 2MB."); return; }
+
+  reader = new FileReader();
+  var output = ""; //placeholder for text output
+  if(filePath.files && filePath.files[0]) {
+      reader.onload = function (e) {
+          output = e.target.result;
+          displayContents(output);
+      };//end onload()
+      reader.readAsText(filePath.files[0]);
+  }//end if html5 filelist support
+  return true;
+}
+
+function displayContents(txt) {
+  image.stego_key =  txt.split(',');
+  $('#key_upload_button')
+    .css('background', '#5bbd72')
+    .find('span').text('Ключ загружен')
+    .siblings('i').removeClass('fi-upload').addClass('fi-check');
+  $('.quant-decript-wrap.is-hidden').slideDown();
+}
+
+
+
 // Метод выборки последнего элемента для массивов
 if (!Array.prototype.last){
     Array.prototype.last = function(){

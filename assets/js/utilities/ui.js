@@ -8,13 +8,15 @@ $(document).ready(function($) {
 
       // Открыть загрузку файла на клик
       $("#dropzone").click(function() {
-        $("#file-input").click();
+        if ( !$(this).hasClass('loaded') ) { $("#file-input").click(); }
       });
+
+      $("#key_upload_button").click(function() { $("#key_upload_file").click(); });
 
       $("#dropzone").hover(function() {
         $(this).addClass('mouseover');
       }, function() {
-        $(this).removeClass('MOUSEOVER');
+        $(this).removeClass('mouseover');
       });
 
       // При загрузке файла
@@ -39,7 +41,6 @@ $(document).ready(function($) {
           oFReader.readAsDataURL(document.getElementById("file-input").files[0]);
 
           oFReader.onload = function (oFREvent) {
-
             $("#dropzone").addClass('loaded');
             $(".block-init-buttons").slideDown();
             $("#src-img, #src-img-view").attr('src', oFREvent.target.result);
@@ -166,23 +167,7 @@ $(document).ready(function($) {
           window.addEventListener("load", dropApp.setup, false);
         })();
 
-
-
-
-        // Разрешаем ввод только в английской раскладке
-        // $("#input").keypress(function(event){
-        //     var ew = event.which;
-        //     if(1 <= ew && ew <= 122)
-        //         return true;
-        //     return false;
-        // });
 });
-
-// Сохраняем стеганоключ из поля
-function get_stego_key () {
-    image.stego_key = $('#quant-key-field').val().split(",");
-}
-
 
 // Получаем сообщение из поля на клик
 function get_msg_from_field () {
@@ -235,6 +220,8 @@ function b64toBlob(b64Data, contentType) {
         byteArrays.push(byteArray);
     }
 
-    var blob = new Blob(byteArrays, {type: 'octet/stream'});
+    var blob = new Blob(byteArrays, {type: contentType});
     return blob;
 }
+
+
