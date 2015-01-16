@@ -102,6 +102,11 @@ $(document).ready(function($) {
     /// При клике на кропке "Метод LSB"
     $('#lsb-encript-start').click(function(event) {
 
+        // Показываем блоки пикселей и готовую картинку
+        $('.spinner').fadeIn();
+
+        setTimeout(function(){
+
 
         // Изменяем значения в массиве цветов
         lsb_modify_array(image, get_msg_from_field());
@@ -113,8 +118,13 @@ $(document).ready(function($) {
         // Выврлим статистику в консоль
         get_image_stats(image);
 
-        // Показываем блоки пикселей и готовую картинку
-        show_blocks($('.block-mod-img'));
+            $('.spinner').fadeOut(300, function(){
+                setTimeout(function(){
+                    $('.img-mod-cont').fadeIn();
+                }, 300)
+            });
+
+        }, 500)
 
     });
 
@@ -136,23 +146,35 @@ $(document).ready(function($) {
     /// При клике на кропке "Закодировать DCT"
     $('#dct-encript-start').click(function(event) {
 
-        // Считаем ДКТ коэффициенты
-        dct_create_function(image);
-
-        // Внедряем сообщение в коэффциценты
-        dct_modify_array(image, get_msg_from_field());
-
-        // Считаем цвета из коэффицентов
-        dct_colors_from_coofs(image);
-
-        // Рисуем канвас видоизменённых пикслелей
-        canvas_draw_image(image.mod_colors);
-
-        // Выврлим статистику в консоль
-        get_image_stats(image);
-
         // Показываем блоки пикселей и готовую картинку
-        show_blocks($('.block-mod-img'));
+        $('.spinner').fadeIn();
+
+        setTimeout(function(){
+            // Считаем ДКТ коэффициенты
+            dct_create_function(image);
+
+            // Внедряем сообщение в коэффциценты
+            dct_modify_array(image, get_msg_from_field());
+
+            // Считаем цвета из коэффицентов
+            dct_colors_from_coofs(image);
+
+            // Рисуем канвас видоизменённых пикслелей
+            canvas_draw_image(image.mod_colors);
+
+            // Выврлим статистику в консоль
+            get_image_stats(image);
+
+            // Показываем
+
+            $('.spinner').fadeOut(300, function(){
+                setTimeout(function(){
+                    $('.img-mod-cont').fadeIn();
+                }, 300)
+            });
+
+        }, 500)
+
 
     });
 

@@ -54,12 +54,22 @@
             </div>
 
             <!-- Изменённая картинка и кнопка скачать -->
-            <div class="large-6 column block-mod-img is-hidden">
+            <div class="large-6 column block-mod-img">
+
+                <div class='spinner clock is-hidden'>
+                  <div class='hour'>
+                    <span></span>
+                  </div>
+                  <div class='minute'>
+                    <span></span>
+                  </div>
+                </div>
+
 
                 <!-- Канвас для отрисовки модифицированного изображения -->
-                <canvas id="canvas-mod-image"></canvas>
+                <canvas id="canvas-mod-image" ></canvas>
 
-                    <div class="img-mod-cont">
+                    <div class="img-mod-cont is-hidden">
                         <div class="wrap">
                             <img src="" id="encripted-pic" class="th" alt="enc">
                             <a class="button with-icon" id="image-mod-download" download="example.png">

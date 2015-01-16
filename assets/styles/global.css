@@ -239,4 +239,80 @@ padding: 0 0 6px !important;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.clock:after {
+  content: "Кодирование изображения";
+  top: 50px;
+  position: absolute;
+  width: 300px;
+  margin-left: -90px;
+}
+.clock {
+  box-sizing: content-box;
+  position: relative;
+  margin: 0 auto;
+  width: 26px;
+  height: 26px;
+  background-color: #fff;
+  border: 7px solid #000;
+  border-radius: 20px;
+  position: absolute;
+  top: 250px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.clock .minute {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  box-sizing: content-box;
+  animation: clock 1s linear infinite;
+}
+.clock .minute span {
+  height: 4px;
+  background-color: #000;
+  width: 13px;
+  border-radius: 10px;
+  position: absolute;
+  top: 11px;
+  box-sizing: content-box;
+  left: 11px;
+}
+.clock .hour {
+  position: absolute;
+  top: 0;
+  left: 0;
 
+  box-sizing: content-box;
+
+
+  height: 100%;
+  width: 100%;
+  animation: clock 5s linear infinite;
+}
+.clock .hour span {
+  height: 4px;
+  width: 9px;
+  background-color: #000;
+  border-radius: 10px;
+  transform: rotate(90deg);
+  position: absolute;
+  top: 7px;
+  left: 9px;
+  box-sizing: content-box;
+
+}
+
+@keyframes clock {
+  0% {
+    transform: rotate(-360deg);
+  }
+}
+
+
+@-webkit-keyframes clock {
+  0% {
+    transform: rotate(-360deg);
+  }
+}
