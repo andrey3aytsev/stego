@@ -13,7 +13,7 @@ function lsb_create_array (image) {
     for (var i = 0; i < image.size; i++) {
 
         if ( i % image.lsb_step == 0 ) {
-            var r_channel = dec_2_bin(array1[i][0]);
+            var r_channel = ABC.dec2Bin(array1[i][2]);
             array2.push( r_channel[7] );
 
         }
@@ -33,12 +33,12 @@ function lsb_modify_array(image, string) {
     var ct = 0;
     // По всем пикселям проходим
     for (var i = 0; i < image.size; i++) {
-        var r_channel = dec_2_bin(array1[i][0]);
-        var g_channel = dec_2_bin(array1[i][1]);
-        var b_channel = dec_2_bin(array1[i][2]);
+        var r_channel = ABC.dec2Bin(array1[i][0]);
+        var g_channel = ABC.dec2Bin(array1[i][1]);
+        var b_channel = ABC.dec2Bin(array1[i][2]);
 
         if ( (i % image.lsb_step == 0) && (ct < string.length ) ) {
-            r_channel = r_channel.substring(0, 7) + string[ct];
+            b_channel = b_channel.substring(0, 7) + string[ct];
             ct++;
         }
 

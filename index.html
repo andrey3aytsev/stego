@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="assets/styles/global.css">
 
         <!-- Скрипты -->
+        <script src="assets/js/vendor/prefixfree.min.js"></script>
         <script src="assets/js/vendor/modernizr.js"></script>
         <script src="assets/js/vendor/jquery.js"></script>
         <script src="assets/js/vendor/foundation.min.js"></script>
@@ -32,33 +33,53 @@
 
     <body>
 
-        <div class="row">
-            <!-- Drag and drop -->
-            <div id="dropzone" class="zones">
 
-              <div class="img-cont">
-                  <!-- Картинка -->
-                  <img  id="src-img" />
-              </div>
+        <div class="row collapse">
 
+            <!-- Drag and drop исходная картинка -->
+            <div class="large-6 column drag-and-drop-wrap">
+                <div id="dropzone" class="zones">
+                  <div class="img-cont">
+                        <i class="fi-upload"></i>
+                      <img  id="src-img-view" />
+                  </div>
+                </div>
 
-              <!-- Канвас для чтения исходного изображения -->
-              <canvas id="canvas-src-image"></canvas>
+                <button id="refresh" class="button"> <i class='fi-x'></i></button>
+
+                <!-- Контейнеры исходного изображения -->
+                <div class="src-img-wrap"><img  id="src-img"  /></div>
+                <canvas id="canvas-src-image"></canvas>
+                <input  id="file-input" type="file" />
             </div>
 
-            <input  id="file-input" type="file" />
+            <!-- Изменённая картинка и кнопка скачать -->
+            <div class="large-6 column block-mod-img is-hidden">
+
+                <!-- Канвас для отрисовки модифицированного изображения -->
+                <canvas id="canvas-mod-image"></canvas>
+
+                    <div class="img-mod-cont">
+                        <div class="wrap">
+                            <img src="" id="encripted-pic" class="th" alt="enc">
+                            <a class="button with-icon" id="image-mod-download" download="example.png">
+                            <i class="fi-download"></i> Скачать готовое изображение</a>
+                        </div>
+                    </div>
+
+                <!-- Кнопка скачать -->
+            </div>
         </div>
 
 
-
         <!-- Конпки "закодировать"" / "раскодировать"" -->
-        <div class="row block-init-buttons" hidden>
+        <div class="row collapse block-init-buttons is-hidden">
             <button id="encript" class="button">Закодировать</button>
             <button id="decript" class="button">Раскодировать</button>
         </div>
 
         <!-- Форма для ввода сообщения -->
-        <div class="row block-msg-input" hidden>
+        <div class="row collapse block-msg-input is-hidden">
 
             <!-- Поле ввода  -->
             <input type="text" id="input" placeholder="Введите ваш текст...">
@@ -69,7 +90,7 @@
         </div>
 
         <!-- Методы расшифровки -->
-        <div class="row block-decript-methods" hidden>
+        <div class="row collapse block-decript-methods is-hidden">
             <button id="lsb-decript" class="button info">Метод LSB</button>
             <button id="quant-decript" class="button info">Метод Quant</button>
             <button id="dct-decript" class="button info">Метод DCT</button>
@@ -77,14 +98,17 @@
 
 
         <!-- Форма для ввода ключа -->
-        <div class="row block-key-field" hidden>
+        <div class="row collapse block-key-field is-hidden">
             <h2>Введите ключ для расшифрования</h2>
-            <textarea id="quant-key-field"></textarea>
-            <button id="quant-decript-start" class="button">Применить ключ</button>
+            <button id="key_upload_button" class="button with-icon"> <i class="fi-upload"></i><span>Загрузить ключ</span></button>
+            <input type="file" id="key_upload_file" onchange='readText(this)' class="is-hidden">
+            <div class="quant-decript-wrap is-hidden">
+                <button id="quant-decript-start" class="button">Применить ключ</button>
+            </div>
         </div>
 
         <!-- Ввод Стеганокоординат -->
-        <div class="row block-select-coords" hidden>
+        <div class="row collapse block-select-coords is-hidden">
 
             <!-- Блок с выбором координат -->
             <div class="large-12 columns">
@@ -98,7 +122,7 @@
 
 
         <!-- Форма для ввыбора шага -->
-        <div class="row block-step-field ui-hidden" >
+        <div class="row collapse block-step-field ui-hidden" >
             <h3>Выбирите Шаг</h3>
             <div class="large-5">
                 <div id="lsb_step" class="range-slider" data-slider data-options="display_selector: #sliderOutput2; start: 1; end: 10;">
@@ -115,7 +139,7 @@
 
 
         <!-- Форма для ввыбора порога -->
-        <div class="row block-porog-field ui-hidden" >
+        <div class="row collapse block-porog-field ui-hidden" >
 
             <div class="large-6 columns">
                 <h3>Выберите координаты</h3>
@@ -133,20 +157,20 @@
                 <div class="columns">
                     <span id="sliderOutput3" style="font-size: 34px"></span>
                 </div>
-                <h3 style="padding-top: 80px">Формат сo сжатием</h3>
+                <h3 style="padding-top: 60px">Формат сo сжатием</h3>
                 <div class="switch">
                   <input id="jpegSwitch" type="checkbox">
                   <label id="jpegSwitchLabel" for="jpegSwitch"></label>
                 </div>
             </div>
 
-          <button id="dct-encript-start" class="button" style="display: none; margin-top: 150px;">Закодировать DCT</button>
+          <button id="dct-encript-start" class="button" style="display: none; margin-top: 40px;">Закодировать DCT</button>
 
         </div>
 
 
         <!-- Блок для пикселей -->
-        <div class="row block-pixels" hidden>
+        <div class="row collapse block-pixels is-hidden">
             <h1>Закодированное изображение в пикселях</h1>
 
             <!-- Контейнер для блоков-пикселей -->
@@ -154,31 +178,18 @@
         </div>
 
         <!-- Стеганоключь -->
-        <div class="row block-mod-key" hidden>
+        <div class="row collapse block-mod-key is-hidden">
             <h1>Стеганоключь</h1>
 
             <!-- Кнопка скачать ключ -->
-            <a href="#" class="button alert" id="key-download" download="key.txt">Скачать Стеганоключ</a>
+            <a href="#" class="button alert with-icon" id="key-download" download="key.txt"><i class="fi-download"></i>Скачать Стеганоключ</a>
         </div>
 
 
-
-
-        <!-- Изменённая картинка и кнопка скачать -->
-        <div class="row block-mod-img" hidden>
-            <h1>Закодированное изображение</h1>
-
-            <!-- Канвас для отрисовки модифицированного изображения -->
-            <canvas id="canvas-mod-image"></canvas>
-            <p><img src="" id="encripted-pic" class="th" alt="enc"></p>
-
-            <!-- Кнопка скачать -->
-            <button class="button" id="image-mod-download" download="example.png">Скачать закодированное изображение</button>
-        </div>
 
 
         <!-- Блок расшифрованного кода -->
-        <div class="row block-code" hidden>
+        <div class="row collapse block-code is-hidden">
 
             <!-- Текст -->
             <div id="output-text"></div>

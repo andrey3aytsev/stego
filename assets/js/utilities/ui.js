@@ -6,12 +6,34 @@ $(document).ready(function($) {
       // Инициализируем фаундейшн
       $(document).foundation();
 
-
       // Открыть загрузку файла на клик
       $("#dropzone").click(function() {
-        $("#file-input").click();
+        if ( !$(this).hasClass('loaded') ) { $("#file-input").click(); }
       });
 
+      $("#key_upload_button").click(function() { $("#key_upload_file").click(); });
+
+      $("#dropzone").hover(function() {
+        $(this).addClass('mouseover');
+      }, function() {
+        $(this).removeClass('mouseover');
+      });
+
+      // При загрузке файла
+      $('#file-input').change(function() {
+
+        // Проверем расширение
+        var ext = $(this).val().split(".").last();
+        var size =  document.getElementById($(this).attr('id')).files[0].size / Math.pow(2, 20);
+
+        if ( $.inArray(ext, ["png", "jpg", "jpeg", "PNG", "JPG", "JPEG"]) < 0 )
+          { alert("Неправильный формат файла."); return; }
+
+        if ( size > 10 )
+          { alert("Файл слишком большой, загрузите файл меньше 2MB."); return; }
+
+        PreviewImage();
+      });
 
       // Показать предпросмотр картики
       function PreviewImage() {
@@ -19,34 +41,28 @@ $(document).ready(function($) {
           oFReader.readAsDataURL(document.getElementById("file-input").files[0]);
 
           oFReader.onload = function (oFREvent) {
-
             $("#dropzone").addClass('loaded');
             $(".block-init-buttons").slideDown();
-            $("#src-img").attr('src', oFREvent.target.result);
+            $("#src-img, #src-img-view").attr('src', oFREvent.target.result);
           };
       };
-
-      $('#file-input').change(function(event) {
-        PreviewImage();
-      });
 
 
       // Сохраняем канвас на клик как файл png
       $('#image-mod-download').click(function(e) {
-        var img = document.getElementById('encripted-pic');
-        var a = $("<a>").attr("href", img.src).attr("download", image.name + "." + image.extension).appendTo("body");
-        a[0].click();
-        a.remove();
+
+          if (blobUrl !== null) { window.URL.revokeObjectURL(blobUrl); }
+
+          var blob = b64toBlob(image.mod_code.split(",").last(), image.type);
+          var blobUrl = URL.createObjectURL(blob);
+
+          $(this).attr({
+            'href': blobUrl,
+            'download': image.name + "." + image.extension
+          });
+
       });
 
-
-      // Разрешаем ввод только в английской раскладке
-      $("#input").keypress(function(event){
-          var ew = event.which;
-          if(1 <= ew && ew <= 122)
-              return true;
-          return false;
-      });
 
 
       // Изменяем значение  DCT порога через слайдер
@@ -86,7 +102,6 @@ $(document).ready(function($) {
 
 
       // Drag and drop
-
         var dropApp = dropApp || {};
 
         (function(){
@@ -115,30 +130,24 @@ $(document).ready(function($) {
 
             $.each(files, function(i, file){
               function readItems(){
-                console.log((file.size/1000000) + "+ MB")
-                console.log(file.type)
                 var reader = new FileReader();
                 reader.index = i;
                 reader.file = file;
                 reader.addEventListener("loadend", dropApp.buildImageListItem, false);
                 reader.readAsDataURL(file);
               }
-              if(file.size < 2097152) {
+              if(file.size < 2097152*5) {
                 if(file.type != "image/jpeg") {
                   if(file.type != "image/png") {
-                    alert("Incorrect file type");
-                  }
-
-                  else {
-                    readItems();
-                  }
+                    alert("Неправильный формат файла");
+                  } else { readItems(); }
                 }
                 else {
                   readItems();
                 }
 
               } else {
-                alert("File is too large, needs to be below 2MB.");
+                alert("Файл слишком большой, загрузите файл меньше 2MB.");
               }
             });
           };
@@ -148,7 +157,7 @@ $(document).ready(function($) {
               file = event.target.file,
               getBinaryDataReader = new FileReader();
 
-            $('#src-img').attr('src', data);
+            $('#src-img, #src-img-view').attr('src', data);
             $("#dropzone").addClass('loaded');
             $(".block-init-buttons").slideDown();
 
@@ -158,16 +167,7 @@ $(document).ready(function($) {
           window.addEventListener("load", dropApp.setup, false);
         })();
 
-        $(document).on("click", ".options",function(){
-          $(this).parent().remove();
-        });
 });
-
-// Сохраняем стеганоключ из поля
-function get_stego_key () {
-    image.stego_key = $('#quant-key-field').val().split(",");
-}
-
 
 // Получаем сообщение из поля на клик
 function get_msg_from_field () {
@@ -197,3 +197,31 @@ function cord_gen(element) {
     $(element).addClass('filled');
   }
 }
+
+
+// Конвертируем в БЛОБ
+function b64toBlob(b64Data, contentType) {
+    contentType = contentType || '';
+    sliceSize = 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, {type: contentType});
+    return blob;
+}
+
+

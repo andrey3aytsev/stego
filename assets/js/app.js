@@ -22,6 +22,7 @@ $(document).ready(function($) {
 
         stats          : {
             largest_diff          :  0,
+            smallest_diff         :  255,
             average_diff          :  0,
             average_error         :  0,
             signal_to_noise       :  0,
@@ -82,11 +83,13 @@ $(document).ready(function($) {
 
         // Показываем блоки
         show_blocks($('.block-mod-img'), $('.block-mod-key'));
+
     });
 
 
     /// При клике на кропке "Метод LSB"
     $('#lsb-encript').click(function(event) {
+
 
         // Задаём имя  выходного изображения
         image.name = 'lsb-encripted';
@@ -99,8 +102,10 @@ $(document).ready(function($) {
     /// При клике на кропке "Метод LSB"
     $('#lsb-encript-start').click(function(event) {
 
+
         // Изменяем значения в массиве цветов
         lsb_modify_array(image, get_msg_from_field());
+
 
         // Рисуем канвас видоизменённых пикслелей
         canvas_draw_image(image.mod_colors);
@@ -230,9 +235,6 @@ $(document).ready(function($) {
     // При нажатии "quant раскодировать"
     $('#quant-decript-start').click(function(event) {
 
-        // Получаем ключ из поля
-        get_stego_key();
-
         // Расишфровываем сообщение
         quant_read_message(image);
 
@@ -242,5 +244,23 @@ $(document).ready(function($) {
     });
 
 
+    // Скрываем поле вводы при выборе закодирования
+    $('#dct-encript, #quant-encript, #lsb-encript').click(function(event) {
+
+        // Показываем скрываем кнопки и показываем форму
+        hide_blocks($('.block-msg-input'));
+    });
+
+    // Скрываем поле вводы при начале закодирования
+    $('#dct-encript-start, #lsb-encript-start').click(function(event) {
+
+        // Показываем скрываем кнопки и показываем форму
+        $('.block-step-field, .block-porog-field').addClass('ui-hidden');
+    });
+
+    // Перезагрузка страницы
+    $('#refresh').click(function(event) {
+        window.location.reload( false );
+    });
 
 });

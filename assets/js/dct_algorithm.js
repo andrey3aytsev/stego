@@ -18,7 +18,6 @@ function dct_direct (u, v, array) {
     return prod * summ;
 }
 
-
 // Дискретное преобразование для элементов 1 блока
 function dct_reverse(u, v, dct_array) {
 
@@ -36,7 +35,12 @@ function dct_reverse(u, v, dct_array) {
       }
     }
 
-    return Math.round(prod * summ);
+    var res = prod * summ;
+
+    if (res > 255) { res = 255 };
+    if (res < 0)   { res = 0 };
+
+    return Math.round(res);
 }
 
 
@@ -134,12 +138,14 @@ function dct_modify_array(image, string) {
       image.dct[i][image.coof_num[0]] = result[0];
       image.dct[i][image.coof_num[1]] = result[1];
     }
-
 }
+
+
 
 
 // Функция генерации цветов из коэффициентов
 function dct_colors_from_coofs (image) {
+
 
   var result = result_linear = [];
 
