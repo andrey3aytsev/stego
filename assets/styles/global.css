@@ -291,10 +291,7 @@ padding: 0 0 6px !important;
   position: absolute;
   top: 0;
   left: 0;
-
   box-sizing: content-box;
-
-
   height: 100%;
   width: 100%;
   animation: clock 5s linear infinite;
@@ -309,17 +306,43 @@ padding: 0 0 6px !important;
   top: 7px;
   left: 9px;
   box-sizing: content-box;
-
 }
 
-@keyframes clock {
+.progress {
+  overflow: hidden;
+  position: absolute;
+  top: 150px;
+  width: 80%;
+  left: 50px;
+}
+
+.meter {
+  background: none !important;
+}
+
+.rotator {
+  background: #2ba6cb;
+  margin-top: 200px;
+  margin-left: -1500px;
+  width: 2500px;
+  height: 500px;
+  ransform: rotate(90deg);
+  animation-duration: 10s;
+  animation-name: rotator;
+  animation-fill-mode: forwards;
+  animation-timing-function: linear;
+}
+
+@keyframes rotator {
   0% {
-    transform: rotate(-360deg);
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(130deg);
   }
 }
 
-
-@-webkit-keyframes clock {
+@keyframes clock {
   0% {
     transform: rotate(-360deg);
   }

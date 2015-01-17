@@ -44,6 +44,6 @@ gulp.task("watch", function() {
       ['js-concat']);
 });
 
-gulp.task('default', ['js-concat']);
+gulp.task('default', ['js-concat', 'watch']);
 
 

@@ -1013,8 +1013,17 @@ $(document).ready(function($) {
     // При нажатии "закодировать"
     $('#encript').click(function(event) {
 
+        var d = new Date();
+        var start = d.getTime();
+
         // Читаем изображение и кладём цвета в массив
         canvas_read_image(image);
+
+        var f = new Date();
+        var end = f.getTime();
+
+        timetook = ( end - start ) / 1000;
+        if (timetook < 0.25) { timetook = 0.25 };
 
         // Скрываем кнопки и показываем форму
         hide_blocks($('.block-init-buttons'));
@@ -1037,7 +1046,7 @@ $(document).ready(function($) {
     // При клике на кропке "Метод QUANT"
     $('#quant-encript').click(function(event) {
 
-        $('.spinner').fadeIn();
+        $('.progress .rotator').css('animation-duration', timetook * 3 + 's');
 
         setTimeout(function(){
 
@@ -1065,7 +1074,7 @@ $(document).ready(function($) {
             // Выврлим статистику в консоль
             get_image_stats(image);
 
-            $('.spinner').fadeOut(300, function(){
+            $('.spinner, .progress').fadeOut(300, function(){
                 setTimeout(function(){
                     $('.img-mod-cont').fadeIn();
                 }, 300)
@@ -1091,8 +1100,7 @@ $(document).ready(function($) {
     /// При клике на кропке "Метод LSB"
     $('#lsb-encript-start').click(function(event) {
 
-        // Показываем блоки пикселей и готовую картинку
-        $('.spinner').fadeIn();
+        $('.progress .rotator').css('animation-duration', timetook * 5 + 's');
 
         setTimeout(function(){
 
@@ -1105,7 +1113,7 @@ $(document).ready(function($) {
             // Выврлим статистику в консоль
             get_image_stats(image);
 
-            $('.spinner').fadeOut(300, function(){
+            $('.spinner, .progress').fadeOut(300, function(){
                 setTimeout(function(){
                     $('.img-mod-cont').fadeIn();
                 }, 300)
@@ -1133,8 +1141,7 @@ $(document).ready(function($) {
     /// При клике на кропке "Закодировать DCT"
     $('#dct-encript-start').click(function(event) {
 
-        // Показываем блоки пикселей и готовую картинку
-        $('.spinner').fadeIn();
+        $('.progress .rotator').css('animation-duration', timetook * 15 + 's');
 
         setTimeout(function(){
             // Считаем ДКТ коэффициенты
@@ -1153,7 +1160,7 @@ $(document).ready(function($) {
             get_image_stats(image);
 
             // Показываем
-            $('.spinner').fadeOut(300, function(){
+            $('.spinner, .progress').fadeOut(300, function(){
                 setTimeout(function(){
                     $('.img-mod-cont').fadeIn();
                 }, 300)
@@ -1258,10 +1265,11 @@ $(document).ready(function($) {
     });
 
     // Скрываем поле вводы при начале закодирования
-    $('#dct-encript-start, #lsb-encript-start').click(function(event) {
+    $('#dct-encript-start, #quant-encript, #lsb-encript-start').click(function(event) {
 
         // Показываем скрываем кнопки и показываем форму
         $('.block-step-field, .block-porog-field').addClass('ui-hidden');
+        $('.spinner, .progress').fadeIn();
     });
 
     // Перезагрузка страницы
