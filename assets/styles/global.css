@@ -3,10 +3,12 @@ body {
   color: #fff;
   margin: 0;
 }
+
 #pix-block {
   width: 100%;
   line-height: 0;
 }
+
 #pix-block span {
   display: inline-block;
   position: relative;
@@ -17,12 +19,14 @@ body {
   vertical-align: top;
   outline: 1px solid #000;
 }
+
 #canvas-src-image, #canvas-mod-image {
   height: 0;
   width: 0;
   visibility: hidden;
   position: absolute;
 }
+
 .row {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -80,7 +84,6 @@ padding: 0 0 6px !important;
 }
 
 #src-img {
-/*  display: none;*/
   max-width: none;
   position: absolute;
   opacity: 0;
@@ -132,9 +135,14 @@ padding: 0 0 6px !important;
   margin: 0;
   background: none;
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 19px;
+  top: 18px;
   color: #999;
+  padding: 0;
+}
+
+#refresh i:before {
+  font-size: 2rem;
 }
 
 #refresh:hover {
@@ -168,7 +176,7 @@ padding: 0 0 6px !important;
 /*Drop*/
 #dropzone {
   position: relative;
-  padding: 20px;
+  padding: 40px;
   margin: 10px;
   background: #444;
   color: #fff;
@@ -184,9 +192,9 @@ padding: 0 0 6px !important;
   transition: background .3s;
 }
 
-#dropzone i.fi-upload {
+#dropzone .img-cont i {
   position: absolute;
-  top: 55%;
+  top: 58%;
   left: 50%;
   font-size: 6rem;
   transform: translate(-50%, -50%);
@@ -221,7 +229,7 @@ padding: 0 0 6px !important;
   color: #aaa;
 }
 
-#dropzone.loaded:after, #dropzone.loaded .fi-upload {
+#dropzone.loaded:after, #dropzone.loaded .img-cont i {
   display: none;
 }
 

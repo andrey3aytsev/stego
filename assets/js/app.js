@@ -64,7 +64,6 @@ $(document).ready(function($) {
 
         setTimeout(function(){
 
-
             // Задаём имя  выходного изображения
             image.name = 'quant-encripted';
 
@@ -97,14 +96,11 @@ $(document).ready(function($) {
 
         }, 500)
 
-
-
     });
 
 
     /// При клике на кропке "Метод LSB"
     $('#lsb-encript').click(function(event) {
-
 
         // Задаём имя  выходного изображения
         image.name = 'lsb-encripted';
@@ -114,6 +110,7 @@ $(document).ready(function($) {
         $('.block-step-field').removeClass('ui-hidden');
     });
 
+
     /// При клике на кропке "Метод LSB"
     $('#lsb-encript-start').click(function(event) {
 
@@ -122,15 +119,14 @@ $(document).ready(function($) {
 
         setTimeout(function(){
 
+            // Изменяем значения в массиве цветов
+            lsb_modify_array(image, get_msg_from_field());
 
-        // Изменяем значения в массиве цветов
-        lsb_modify_array(image, get_msg_from_field());
+            // Рисуем канвас видоизменённых пикслелей
+            canvas_draw_image(image.mod_colors);
 
-        // Рисуем канвас видоизменённых пикслелей
-        canvas_draw_image(image.mod_colors);
-
-        // Выврлим статистику в консоль
-        get_image_stats(image);
+            // Выврлим статистику в консоль
+            get_image_stats(image);
 
             $('.spinner').fadeOut(300, function(){
                 setTimeout(function(){
@@ -180,7 +176,6 @@ $(document).ready(function($) {
             get_image_stats(image);
 
             // Показываем
-
             $('.spinner').fadeOut(300, function(){
                 setTimeout(function(){
                     $('.img-mod-cont').fadeIn();
@@ -188,7 +183,6 @@ $(document).ready(function($) {
             });
 
         }, 500)
-
 
     });
 
@@ -199,7 +193,6 @@ $(document).ready(function($) {
         hide_blocks($('.block-init-buttons'));
         show_blocks($('.block-decript-methods'));
     });
-
 
 
     // При нажатии "lsb раскодировать"
@@ -296,7 +289,7 @@ $(document).ready(function($) {
 
     // Перезагрузка страницы
     $('#refresh').click(function(event) {
-        window.location.reload( false );
+        location.reload();
     });
 
 });

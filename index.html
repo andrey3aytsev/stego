@@ -7,32 +7,17 @@
         <meta charset="UTF-8"/>
 
         <!-- Стили -->
+        <link rel="stylesheet" href="assets/styles/normalize.css">
         <link rel="stylesheet" href="assets/styles/foundation.css">
+        <link rel="stylesheet" href="assets/styles/foundation-icons.css">
         <link rel="stylesheet" href="assets/styles/global.css">
 
         <!-- Скрипты -->
-        <script src="assets/js/vendor/prefixfree.min.js"></script>
-        <script src="assets/js/vendor/modernizr.js"></script>
-        <script src="assets/js/vendor/jquery.js"></script>
-        <script src="assets/js/vendor/foundation.min.js"></script>
-
-        <script src="assets/js/utilities/helper_functions.js"></script>
-        <script src="assets/js/utilities/ui.js"></script>
-        <script src="assets/js/utilities/init_canvases.js"></script>
-
-        <script src="assets/js/read_image.js"></script>
-        <script src="assets/js/write_image.js"></script>
-        <script src="assets/js/print_pixels.js"></script>
-        <script src="assets/js/lsb_algorithm.js"></script>
-        <script src="assets/js/quant_algorithm.js"></script>
-        <script src="assets/js/dct_algorithm_helpers.js"></script>
-        <script src="assets/js/dct_algorithm.js"></script>
-        <script src="assets/js/app.js"></script>
-        <script src="assets/js/visual.js"></script>
+        <script src="assets/js/dist/vendor.js"></script>
+        <script src="assets/js/dist/application.js"></script>
     </head>
 
     <body>
-
 
         <div class="row collapse">
 
@@ -40,12 +25,12 @@
             <div class="large-6 column drag-and-drop-wrap">
                 <div id="dropzone" class="zones">
                   <div class="img-cont">
-                        <i class="fi-upload"></i>
-                      <img  id="src-img-view" />
+                        <i class="icon-photo"></i>
+                      <img  id="src-img-view"/>
                   </div>
                 </div>
 
-                <button id="refresh" class="button"> <i class='fi-x'></i></button>
+                <button id="refresh" class="button"> <i class='icon-x'></i></button>
 
                 <!-- Контейнеры исходного изображения -->
                 <div class="src-img-wrap"><img  id="src-img"  /></div>
@@ -73,7 +58,7 @@
                         <div class="wrap">
                             <img src="" id="encripted-pic" class="th" alt="enc">
                             <a class="button with-icon" id="image-mod-download" download="example.png">
-                            <i class="fi-download"></i> Скачать готовое изображение</a>
+                            <i class="icon-download"></i> Скачать готовое изображение</a>
                         </div>
                     </div>
 
@@ -110,7 +95,7 @@
         <!-- Форма для ввода ключа -->
         <div class="row collapse block-key-field is-hidden">
             <h2>Введите ключ для расшифрования</h2>
-            <button id="key_upload_button" class="button with-icon"> <i class="fi-upload"></i><span>Загрузить ключ</span></button>
+            <button id="key_upload_button" class="button with-icon"> <i class="icon-upload"></i><span>Загрузить ключ</span></button>
             <input type="file" id="key_upload_file" onchange='readText(this)' class="is-hidden">
             <div class="quant-decript-wrap is-hidden">
                 <button id="quant-decript-start" class="button">Применить ключ</button>
@@ -192,7 +177,7 @@
             <h1>Стеганоключь</h1>
 
             <!-- Кнопка скачать ключ -->
-            <a href="#" class="button alert with-icon" id="key-download" download="key.txt"><i class="fi-download"></i>Скачать Стеганоключ</a>
+            <a href="#" class="button alert with-icon" id="key-download" download="key.txt"><i class="icon-download"></i>Скачать Стеганоключ</a>
         </div>
 
 
