@@ -36,8 +36,17 @@ $(document).ready(function($) {
     // При нажатии "закодировать"
     $('#encript').click(function(event) {
 
+        var d = new Date();
+        var start = d.getTime();
+
         // Читаем изображение и кладём цвета в массив
         canvas_read_image(image);
+
+        var f = new Date();
+        var end = f.getTime();
+
+        timetook = ( end - start ) / 1000;
+        if (timetook < 0.25) { timetook = 0.25 };
 
         // Скрываем кнопки и показываем форму
         hide_blocks($('.block-init-buttons'));
@@ -60,36 +69,47 @@ $(document).ready(function($) {
     // При клике на кропке "Метод QUANT"
     $('#quant-encript').click(function(event) {
 
-        // Задаём имя  выходного изображения
-        image.name = 'quant-encripted';
+        $('.progress .rotator').css('animation-duration', timetook * 3 + 's');
 
-        // Находим разницы цветов
-        quant_color_diffs(image);
+        setTimeout(function(){
 
-        // Находим массив Тетта функций
-        quant_tetta_function(image);
+            // Задаём имя  выходного изображения
+            image.name = 'quant-encripted';
 
-        // Генерируем шкалу от -255 до 255
-        quant_generate_scale(image);
+            // Находим разницы цветов
+            quant_color_diffs(image);
 
-        // Модифицируем массив разниц
-        quant_modify_diffs(image, get_msg_from_field());
+            // Находим массив Тетта функций
+            quant_tetta_function(image);
 
-        // Рисуем канвас видоизменённых пикслелей
-        canvas_draw_image(image.mod_colors);
+            // Генерируем шкалу от -255 до 255
+            quant_generate_scale(image);
 
-        // Выврлим статистику в консоль
-        get_image_stats(image);
+            // Модифицируем массив разниц
+            quant_modify_diffs(image, get_msg_from_field());
 
-        // Показываем блоки
-        show_blocks($('.block-mod-img'), $('.block-mod-key'));
+            // Рисуем канвас видоизменённых пикслелей
+            canvas_draw_image(image.mod_colors);
+
+            // Показываем блоки
+            show_blocks( $('.block-mod-key'));
+
+            // Выврлим статистику в консоль
+            get_image_stats(image);
+
+            $('.spinner, .progress').fadeOut(300, function(){
+                setTimeout(function(){
+                    $('.img-mod-cont').fadeIn();
+                }, 300)
+            });
+
+        }, 500)
 
     });
 
 
     /// При клике на кропке "Метод LSB"
     $('#lsb-encript').click(function(event) {
-
 
         // Задаём имя  выходного изображения
         image.name = 'lsb-encripted';
@@ -99,22 +119,30 @@ $(document).ready(function($) {
         $('.block-step-field').removeClass('ui-hidden');
     });
 
+
     /// При клике на кропке "Метод LSB"
     $('#lsb-encript-start').click(function(event) {
 
+        $('.progress .rotator').css('animation-duration', timetook * 5 + 's');
 
-        // Изменяем значения в массиве цветов
-        lsb_modify_array(image, get_msg_from_field());
+        setTimeout(function(){
 
+            // Изменяем значения в массиве цветов
+            lsb_modify_array(image, get_msg_from_field());
 
-        // Рисуем канвас видоизменённых пикслелей
-        canvas_draw_image(image.mod_colors);
+            // Рисуем канвас видоизменённых пикслелей
+            canvas_draw_image(image.mod_colors);
 
-        // Выврлим статистику в консоль
-        get_image_stats(image);
+            // Выврлим статистику в консоль
+            get_image_stats(image);
 
-        // Показываем блоки пикселей и готовую картинку
-        show_blocks($('.block-mod-img'));
+            $('.spinner, .progress').fadeOut(300, function(){
+                setTimeout(function(){
+                    $('.img-mod-cont').fadeIn();
+                }, 300)
+            });
+
+        }, 500)
 
     });
 
@@ -136,23 +164,32 @@ $(document).ready(function($) {
     /// При клике на кропке "Закодировать DCT"
     $('#dct-encript-start').click(function(event) {
 
-        // Считаем ДКТ коэффициенты
-        dct_create_function(image);
+        $('.progress .rotator').css('animation-duration', timetook * 15 + 's');
 
-        // Внедряем сообщение в коэффциценты
-        dct_modify_array(image, get_msg_from_field());
+        setTimeout(function(){
+            // Считаем ДКТ коэффициенты
+            dct_create_function(image);
 
-        // Считаем цвета из коэффицентов
-        dct_colors_from_coofs(image);
+            // Внедряем сообщение в коэффциценты
+            dct_modify_array(image, get_msg_from_field());
 
-        // Рисуем канвас видоизменённых пикслелей
-        canvas_draw_image(image.mod_colors);
+            // Считаем цвета из коэффицентов
+            dct_colors_from_coofs(image);
 
-        // Выврлим статистику в консоль
-        get_image_stats(image);
+            // Рисуем канвас видоизменённых пикслелей
+            canvas_draw_image(image.mod_colors);
 
-        // Показываем блоки пикселей и готовую картинку
-        show_blocks($('.block-mod-img'));
+            // Выврлим статистику в консоль
+            get_image_stats(image);
+
+            // Показываем
+            $('.spinner, .progress').fadeOut(300, function(){
+                setTimeout(function(){
+                    $('.img-mod-cont').fadeIn();
+                }, 300)
+            });
+
+        }, 500)
 
     });
 
@@ -163,7 +200,6 @@ $(document).ready(function($) {
         hide_blocks($('.block-init-buttons'));
         show_blocks($('.block-decript-methods'));
     });
-
 
 
     // При нажатии "lsb раскодировать"
@@ -252,15 +288,16 @@ $(document).ready(function($) {
     });
 
     // Скрываем поле вводы при начале закодирования
-    $('#dct-encript-start, #lsb-encript-start').click(function(event) {
+    $('#dct-encript-start, #quant-encript, #lsb-encript-start').click(function(event) {
 
         // Показываем скрываем кнопки и показываем форму
         $('.block-step-field, .block-porog-field').addClass('ui-hidden');
+        $('.spinner, .progress').fadeIn();
     });
 
     // Перезагрузка страницы
     $('#refresh').click(function(event) {
-        window.location.reload( false );
+        location.reload();
     });
 
 });

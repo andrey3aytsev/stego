@@ -3,10 +3,12 @@ body {
   color: #fff;
   margin: 0;
 }
+
 #pix-block {
   width: 100%;
   line-height: 0;
 }
+
 #pix-block span {
   display: inline-block;
   position: relative;
@@ -17,12 +19,14 @@ body {
   vertical-align: top;
   outline: 1px solid #000;
 }
+
 #canvas-src-image, #canvas-mod-image {
   height: 0;
   width: 0;
   visibility: hidden;
   position: absolute;
 }
+
 .row {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -80,7 +84,6 @@ padding: 0 0 6px !important;
 }
 
 #src-img {
-/*  display: none;*/
   max-width: none;
   position: absolute;
   opacity: 0;
@@ -132,9 +135,14 @@ padding: 0 0 6px !important;
   margin: 0;
   background: none;
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 19px;
+  top: 18px;
   color: #999;
+  padding: 0;
+}
+
+#refresh i:before {
+  font-size: 2rem;
 }
 
 #refresh:hover {
@@ -168,7 +176,7 @@ padding: 0 0 6px !important;
 /*Drop*/
 #dropzone {
   position: relative;
-  padding: 20px;
+  padding: 40px;
   margin: 10px;
   background: #444;
   color: #fff;
@@ -184,9 +192,9 @@ padding: 0 0 6px !important;
   transition: background .3s;
 }
 
-#dropzone i.fi-upload {
+#dropzone .img-cont i {
   position: absolute;
-  top: 55%;
+  top: 58%;
   left: 50%;
   font-size: 6rem;
   transform: translate(-50%, -50%);
@@ -221,7 +229,7 @@ padding: 0 0 6px !important;
   color: #aaa;
 }
 
-#dropzone.loaded:after, #dropzone.loaded .fi-upload {
+#dropzone.loaded:after, #dropzone.loaded .img-cont i {
   display: none;
 }
 
@@ -239,4 +247,103 @@ padding: 0 0 6px !important;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.clock:after {
+  content: "Кодирование изображения";
+  top: 50px;
+  position: absolute;
+  width: 300px;
+  margin-left: -90px;
+}
+.clock {
+  box-sizing: content-box;
+  position: relative;
+  margin: 0 auto;
+  width: 26px;
+  height: 26px;
+  background-color: #fff;
+  border: 7px solid #000;
+  border-radius: 20px;
+  position: absolute;
+  top: 250px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.clock .minute {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  box-sizing: content-box;
+  animation: clock 1s linear infinite;
+}
+.clock .minute span {
+  height: 4px;
+  background-color: #000;
+  width: 13px;
+  border-radius: 10px;
+  position: absolute;
+  top: 11px;
+  box-sizing: content-box;
+  left: 11px;
+}
+.clock .hour {
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: content-box;
+  height: 100%;
+  width: 100%;
+  animation: clock 5s linear infinite;
+}
+.clock .hour span {
+  height: 4px;
+  width: 9px;
+  background-color: #000;
+  border-radius: 10px;
+  transform: rotate(90deg);
+  position: absolute;
+  top: 7px;
+  left: 9px;
+  box-sizing: content-box;
+}
 
+.progress {
+  overflow: hidden;
+  position: absolute;
+  top: 150px;
+  width: 80%;
+  left: 50px;
+}
+
+.meter {
+  background: none !important;
+}
+
+.rotator {
+  background: #2ba6cb;
+  margin-top: 200px;
+  margin-left: -1500px;
+  width: 2500px;
+  height: 500px;
+  ransform: rotate(90deg);
+  animation-duration: 10s;
+  animation-name: rotator;
+  animation-fill-mode: forwards;
+  animation-timing-function: linear;
+}
+
+@keyframes rotator {
+  0% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(130deg);
+  }
+}
+
+@keyframes clock {
+  0% {
+    transform: rotate(-360deg);
+  }
+}
